@@ -1,0 +1,44 @@
+{
+  "name": "tryitout",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Tryitout — your real size in every brand, and a fit check on your own body before you buy.",
+  "license": "UNLICENSED",
+  "type": "module",
+  "packageManager": "pnpm@10.34.5",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "pnpm --filter web dev",
+    "build": "pnpm --filter web build",
+    "preview": "pnpm --filter web preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint . && prettier --check .",
+    "lint:fix": "eslint . --fix && prettier --write .",
+    "typecheck": "tsc -p tsconfig.json --noEmit && pnpm -r typecheck",
+    "e2e": "playwright test",
+    "e2e:visual": "playwright test --grep @visual --pass-with-no-tests",
+    "e2e:feel": "playwright test --project=feel --pass-with-no-tests",
+    "e2e:install": "playwright install --with-deps chromium",
+    "licenses:check": "node scripts/check-licenses.mjs",
+    "fonts:fetch": "node scripts/fetch-fonts.mjs",
+    "supabase": "supabase"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.65.0",
+    "@types/node": "^26.6.6",
+    "eslint": "^10.14.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.7",
+    "globals": "^17.14.0",
+    "jsdom": "^31.0.0",
+    "prettier": "^3.9.10",
+    "supabase": "^3.0.0",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.72.1",
+    "vitest": "^5.1.0"
+  }
+}

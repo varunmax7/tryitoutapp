@@ -1,0 +1,36 @@
+# Daily keep-alive and health check — implementation.md §19 step 8.
+# Touching the database stops a Supabase Free project pausing after a quiet week.
+name: Health
+
+on:
+  schedule:
+    # 04:30 UTC = 10:00 IST.
+    - cron: '30 4 * * *'
+  workflow_dispatch:
+
+jobs:
+  ping:
+    name: Ping the health function
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    strategy:
+      fail-fast: false
+      matrix:
+        environment: [staging, production]
+    steps:
+      - name: Call /functions/v1/health
+        env:
+          BASE_URL: ${{ matrix.environment == 'production' && secrets.SUPABASE_URL_PRODUCTION || secrets.SUPABASE_URL_STAGING }}
+          ANON_KEY: ${{ matrix.environment == 'production' && secrets.SUPABASE_ANON_KEY_PRODUCTION || secrets.SUPABASE_ANON_KEY_STAGING }}
+        run: |
+          if [ -z "$BASE_URL" ]; then
+            echo "No Supabase URL configured for ${{ matrix.environment }} yet; skipping."
+            exit 0
+          fi
+          code=$(curl -sS -o response.json -w '%{http_code}' \
+            -H "Authorization: Bearer $ANON_KEY" \
+            -H "apikey: $ANON_KEY" \
+            "$BASE_URL/functions/v1/health")
+          echo "HTTP $code"
+          cat response.json
+          test "$code" = "200"

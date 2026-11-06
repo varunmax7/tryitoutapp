@@ -1,0 +1,11 @@
+# Local and CI tooling for apps/worker. The deployed image is defined in
+# tryitout_worker/app.py; Modal pins Python 3.11 there.
+fastapi>=0.115
+pyjwt[crypto]>=2.9
+httpx>=0.27
+sentry-sdk>=2.0
+supabase>=2.6
+pytest>=8.3
+ruff>=0.6
+mypy>=1.11
+pip-licenses>=5.0

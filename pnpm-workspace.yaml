@@ -1,0 +1,9 @@
+packages:
+  - 'apps/web'
+  - 'packages/*'
+
+onlyBuiltDependencies:
+  - '@tailwindcss/oxide'
+  - 'esbuild'
+  - 'supabase'
+  - 'unrs-resolver'

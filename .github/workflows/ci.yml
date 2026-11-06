@@ -1,0 +1,139 @@
+# CI — implementation.md §15 Phase 0 task 6 and §17.8.
+# A phase is done only when this is green (§0 item 4).
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # Modal pins Python 3.11 for the worker image, so CI checks the same version (§8).
+  PYTHON_VERSION: '3.11'
+  NODE_VERSION: '22'
+
+jobs:
+  web:
+    name: Web and packages
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Unit tests
+        run: pnpm test
+
+      - name: Build
+        run: pnpm build
+
+      - name: Licence allowlist
+        run: pnpm licenses:check
+
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: End-to-end tests
+        run: pnpm e2e
+
+      - name: Visual tests against design/screens
+        run: pnpm e2e:visual
+
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7
+
+  functions:
+    name: Edge Functions (Deno)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+
+      - name: Lint
+        run: deno lint --config supabase/functions/deno.json supabase/functions
+
+      - name: Typecheck
+        run: deno check --config supabase/functions/deno.json supabase/functions/**/*.ts
+
+  worker:
+    name: Worker (Modal)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: apps/worker
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+
+      - name: Install dev dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-dev.txt
+
+      - name: Ruff
+        run: |
+          python -m ruff check .
+          python -m ruff format --check .
+
+      - name: Mypy
+        run: python -m mypy tryitout_worker
+
+      - name: Pytest
+        run: python -m pytest -q
+
+  design-baselines:
+    name: Design baselines unchanged
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      # §17.4: the design PNGs are the visual baselines, so a PR may only change them
+      # when it is deliberately a design change.
+      - name: Refuse silent changes to design/screens
+        env:
+          BASE: ${{ github.event.pull_request.base.sha }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
+          LABELS: ${{ join(github.event.pull_request.labels.*.name, ',') }}
+        run: |
+          changed=$(git diff --name-only "$BASE" "$HEAD" -- design/screens || true)
+          if [ -n "$changed" ] && ! printf '%s' "$LABELS" | tr ',' '\n' | grep -qx 'design-change'; then
+            echo "These design baselines changed without the 'design-change' label:"
+            echo "$changed"
+            exit 1
+          fi
+          echo "No unlabelled changes to design/screens."

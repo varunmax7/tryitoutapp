@@ -1,0 +1,81 @@
+/* Base layer — implementation.md §12.7.
+   The design system (type scale, components) lands in Phase 1; this file only sets up
+   the page so route stubs render on the right ground with the right fonts. */
+
+@import './tokens.css';
+@import './fonts.css';
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    /* Native scrolling only: no scroll-jacking, no smooth-scroll libraries (§12.8.1). */
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100dvh;
+    background: var(--color-surface-50);
+    color: var(--color-ink-900);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.4;
+    -webkit-font-smoothing: antialiased;
+    /* The app owns its own scroll chaining; the page never rubber-bands to white. */
+    overscroll-behavior-y: none;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin: 0;
+    text-wrap: balance;
+  }
+
+  p {
+    margin: 0;
+    text-wrap: pretty;
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+    color: inherit;
+  }
+
+  a {
+    color: var(--color-ink-900);
+  }
+
+  /* Visible focus ring: 2px ink with a 2px white offset; marigold on dark (§12.7). */
+  :focus-visible {
+    outline: 2px solid var(--color-ink-900);
+    outline-offset: 2px;
+  }
+
+  [data-on-dark] :focus-visible {
+    outline-color: var(--color-marigold-500);
+  }
+
+  svg {
+    display: block;
+  }
+
+  /* Installed app: never let content sit under the notch or the home indicator (§12.7). */
+  #root {
+    min-height: 100dvh;
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}

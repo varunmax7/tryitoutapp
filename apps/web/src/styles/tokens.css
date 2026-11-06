@@ -1,0 +1,89 @@
+/* Design tokens — implementation.md §12.2. The only place raw colour values may appear.
+   Components reference these names through Tailwind v4 @theme utilities. */
+
+@import "tailwindcss";
+
+@theme {
+  /* Ink and neutrals (light UI) */
+  --color-ink-900: #0E1726;      /* primary text, primary buttons, selected states */
+  --color-ink-700: #3E4A5C;      /* secondary text */
+  --color-ink-500: #5B6676;      /* captions, inactive nav */
+  --color-ink-300: #AEB7C4;      /* dashed drop zones, inactive shape icons */
+  --color-dash:    #C3CAD4;      /* dashed request button, outline secondary button */
+  --color-line-300: #D9DEE5;     /* input and outline-button borders */
+  --color-line-200: #E4E7EC;     /* card and pill borders */
+  --color-line-100: #EEF0F3;     /* dividers, neutral chips */
+  --color-surface-0: #FFFFFF;
+  --color-surface-50: #F6F7F9;   /* app background */
+  --color-surface-100: #F1F3F6;  /* icon tiles, segmented track */
+  --color-surface-150: #E9ECF0;  /* size-compare track */
+  --color-surface-photo: #EDF0F4;/* product image wells */
+  --color-checker: #E7EAEE;      /* transparency checkerboard (with surface-50) */
+  --color-scrim: rgb(14 23 38 / 0.55);
+
+  /* Marigold accent (tailor's tape) */
+  --color-marigold-500: #FFC23D;
+  --color-marigold-200: #F2D48A;
+  --color-marigold-100: #FFF4D6;
+  --color-marigold-ink: #3B2A00;    /* small labels on marigold */
+  --color-marigold-text-dark: #FFE7A8; /* marigold-tinted text on dark */
+  --color-on-ink-subtle: #C5CEDB;   /* body copy on the ink hero */
+
+  /* Fit chips (bg / fg) */
+  --color-fit-great-bg: #DDF3EA;  --color-fit-great-fg: #0B6B4F;
+  --color-fit-good-bg:  #EEF0F3;  --color-fit-good-fg:  #3E4A5C;
+  --color-fit-loose-bg: #E1EBFA;  --color-fit-loose-fg: #1E4FA3;
+  --color-fit-tight-bg: #FDE9DA;  --color-fit-tight-fg: #9A3A06;
+
+  /* Fit bar segments (light UI) */
+  --color-bar-tight: #FBD3B6;  --color-bar-good: #BFE7D8;  --color-bar-loose: #C6D8F5;
+
+  /* Fit map on camera/3D (dark UI) */
+  --color-map-snug: #F4A261;  --color-map-right: #7FD8BE;  --color-map-roomy: #6C9BF2;
+
+  /* Danger */
+  --color-danger: #B42318;  --color-danger-line: #F2C7C2;
+
+  /* Dark UI (camera, desktop sidebar, 3D stage) */
+  --color-dark-900: #0B1220;     /* camera and stage background */
+  --color-dark-800: #111A2B;     /* camera control panel */
+  --color-dark-700: #18233A;     /* sidebar active item, profile button */
+  --color-dark-650: #1B263B;     /* round icon buttons on dark */
+  --color-dark-600: #1F2B42;     /* segmented active on dark */
+  --color-dark-line: #2A3650;
+  --color-dark-line-2: #22304A;
+  --color-dark-grid: #1C2840;    /* cutting-mat grid */
+  --color-room-wall: #131C2E;  --color-room-floor: #0D1524;  --color-room-line: #1E2A40;
+  --color-on-dark-100: #E6EAF0;
+  --color-on-dark-300: #C9D1DC;
+  --color-on-dark-400: #B8C2D0;
+  --color-on-dark-500: #9AA6B8;
+  --color-on-dark-success: #6EE7B7;
+  --color-glass-10: rgb(255 255 255 / 0.10);
+  --color-glass-12: rgb(255 255 255 / 0.12);
+  --color-overlay-72: rgb(11 18 32 / 0.72);
+  --color-overlay-82: rgb(11 18 32 / 0.82);
+  --color-overlay-86: rgb(11 18 32 / 0.86);
+
+  /* Materials: bars that content scrolls under (§12.8.3) */
+  --color-material: rgb(246 247 249 / 0.84);
+  --color-material-dark: rgb(11 18 32 / 0.8);
+
+  /* Type */
+  --font-display: "Bricolage Grotesque", "Instrument Sans", system-ui, sans-serif;
+  --font-sans: "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --font-deva: "Noto Sans Devanagari", var(--font-sans);
+  --font-telu: "Noto Sans Telugu", var(--font-sans);
+  --font-taml: "Noto Sans Tamil", var(--font-sans);
+
+  /* Radii used in the designs */
+  --radius-3: 3px;  --radius-8: 8px;  --radius-9: 9px;  --radius-10: 10px;
+  --radius-12: 12px; --radius-14: 14px; --radius-16: 16px; --radius-18: 18px;
+  --radius-20: 20px; --radius-22: 22px; --radius-24: 24px; --radius-28: 28px;
+  --radius-pill: 999px;
+
+  /* Elevation (the design is flat; only these two exist) */
+  --shadow-seg: 0 1px 3px rgb(14 23 38 / 0.14);
+  --shadow-marker: 0 0 0 1px #0E1726;
+}

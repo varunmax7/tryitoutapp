@@ -1,0 +1,19 @@
+pnpm-lock.yaml
+dist/
+coverage/
+playwright-report/
+test-results/
+design/
+apps/web/public/fonts/
+apps/web/dev-dist/
+implementation.md
+.venv/
+
+# Generated or copied verbatim from implementation.md; keep them diffable against the source.
+apps/web/src/styles/tokens.css
+apps/web/src/styles/fonts.css
+
+# Copied verbatim from implementation.md §14; keep them byte-identical to the plan.
+AGENTS.md
+CLAUDE.md
+.claude/
