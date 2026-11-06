@@ -1,0 +1,47 @@
+# dependencies
+node_modules/
+.pnpm-store/
+
+# builds
+dist/
+build/
+*.tsbuildinfo
+apps/web/dev-dist/
+
+# env
+.env
+.env.*
+!.env.example
+
+# test output
+coverage/
+playwright-report/
+test-results/
+blob-report/
+e2e/.auth/
+
+# python
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# supabase local
+supabase/.branches/
+supabase/.temp/
+supabase/.env
+
+# os / editor
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# agent scratch
+.claude/settings.local.json
+
+# Deno writes this at the repo root when run without --config; the real one lives in
+# supabase/functions/.
+/deno.lock

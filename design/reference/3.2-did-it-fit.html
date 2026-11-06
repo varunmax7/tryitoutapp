@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tryitout — Did it fit?</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&amp;family=Instrument+Sans:wght@400;500;600&amp;family=JetBrains+Mono:wght@500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+*,*::before,*::after{box-sizing:border-box}
+button,input{font:inherit}
+a{color:#0E1726}a:hover{color:#3E4A5C}
+</style>
+<style>html,body{min-height:100%}body{background:#E9ECF0;display:flex;justify-content:center;align-items:flex-start;padding:24px 0}</style>
+</head>
+<body>
+<!-- Tryitout design reference: 3.2-did-it-fit. Source of truth for layout, copy, colours and spacing. -->
+<div style="width: 390px; height: 844px; position: relative; overflow: hidden; background: #F6F7F9; font-family: 'Instrument Sans', system-ui, -apple-system, 'Segoe UI', sans-serif; color: #0E1726; display: flex; flex-direction: column; padding: 12px 16px 20px">
+
+  <div style="display: flex; align-items: center; justify-content: space-between">
+    <a href="1.4-my-sizes.html" aria-label="Close" style="width: 44px; height: 44px; border-radius: 22px; background: #FFFFFF; border: 1px solid #E4E7EC; display: flex; align-items: center; justify-content: center">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0E1726" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+    </a>
+    <button style="height: 44px; padding: 0 12px; border: 0; background: transparent; color: #3E4A5C; font-size: 15px; font-weight: 600">Ask me later</button>
+  </div>
+
+  <h1 style="margin: 8px 0 0; font-family: 'Bricolage Grotesque', 'Instrument Sans', system-ui, sans-serif; font-weight: 700; font-size: 30px; line-height: 1.1; letter-spacing: -0.02em">Did it fit?</h1>
+  <p style="margin: 6px 0 0; font-size: 14px; color: #5B6676">One answer makes your next size more accurate.</p>
+
+  <div style="margin-top: 14px; background: #FFFFFF; border-radius: 18px; padding: 10px; display: flex; align-items: center; gap: 12px">
+    <svg width="52" height="60" viewBox="0 0 52 60" aria-hidden="true" style="flex: none; border-radius: 10px">
+      <rect width="52" height="60" fill="#EDF0F4"></rect>
+      <g transform="translate(3 0) scale(0.23)">
+        <path d="M70 20L40 30L10 50L0 180L22 182L34 80V230H166V80L178 182L200 180L190 50L160 30L130 20Q100 34 70 20Z" fill="#8FB3DA" stroke="#6E93BC" stroke-width="5" stroke-linejoin="round"></path>
+        <path d="M70 20L100 44L84 52ZM130 20L100 44L116 52Z" fill="#A6C4E4" stroke="#6E93BC" stroke-width="5" stroke-linejoin="round"></path>
+      </g>
+    </svg>
+    <span style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px">
+      <span style="font-size: 12px; color: #5B6676">Delivered yesterday</span>
+      <span style="font-size: 15px; font-weight: 600">H&amp;M · Regular-fit oxford shirt</span>
+      <span style="font-size: 13px; color: #3E4A5C">You bought <span style="font-family: 'JetBrains Mono', monospace; font-weight: 600; color: #0E1726">L</span> · we said Good fit</span>
+    </span>
+  </div>
+
+  <span id="fit-q" style="margin-top: 18px; font-size: 16px; font-weight: 600">How did L fit?</span>
+  <div role="radiogroup" aria-labelledby="fit-q" style="margin-top: 10px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px">
+    <button role="radio" aria-checked="false" style="height: 100px; border-radius: 16px; border: 1.5px solid #E4E7EC; background: #FFFFFF; color: #0E1726; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; font-size: 14px; font-weight: 600">
+      <svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke="#0E1726" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 7L7 10 4 16l4.5 2 2-2.6V30h15V15.4l2 2.6 4.5-2-3-6-6-3q-2 3-5 3t-5-3z"></path><path d="M2 23h6M6 21l2 2-2 2M34 23h-6M30 21l-2 2 2 2"></path></svg>
+      Too tight
+    </button>
+    <button role="radio" aria-checked="false" style="height: 100px; border-radius: 16px; border: 1.5px solid #E4E7EC; background: #FFFFFF; color: #0E1726; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; font-size: 14px; font-weight: 600">
+      <svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke="#0E1726" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 7L7 10 4 16l4.5 2 2-2.6V30h15V15.4l2 2.6 4.5-2-3-6-6-3q-2 3-5 3t-5-3z"></path><path d="M14 20l3 3 5.5-6"></path></svg>
+      Perfect
+    </button>
+    <button role="radio" aria-checked="true" style="position: relative; height: 100px; border-radius: 16px; border: 2px solid #0E1726; background: #E1EBFA; color: #0E1726; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; font-size: 14px; font-weight: 600">
+      <span style="position: absolute; top: 8px; right: 8px; width: 20px; height: 20px; border-radius: 10px; background: #0E1726; display: flex; align-items: center; justify-content: center" aria-hidden="true">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>
+      </span>
+      <svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke="#1E4FA3" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 7L7 10 4 16l4.5 2 2-2.6V30h15V15.4l2 2.6 4.5-2-3-6-6-3q-2 3-5 3t-5-3z"></path><path d="M8 23H2M4 21l-2 2 2 2M28 23h6M32 21l2 2-2 2"></path></svg>
+      Too loose
+    </button>
+  </div>
+
+  <span id="where-q" style="margin-top: 18px; font-size: 16px; font-weight: 600">Where was it loose?</span>
+  <div role="group" aria-labelledby="where-q" style="margin-top: 10px; display: flex; flex-wrap: wrap; gap: 8px">
+    <button aria-pressed="false" style="height: 44px; padding: 0 16px; border-radius: 999px; border: 1.5px solid #E4E7EC; background: #FFFFFF; color: #0E1726; font-size: 14px; font-weight: 600">Chest</button>
+    <button aria-pressed="true" style="height: 44px; padding: 0 16px 0 12px; border-radius: 999px; border: 1.5px solid #0E1726; background: #0E1726; color: #FFFFFF; font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 6px">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFC23D" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>
+      Waist
+    </button>
+    <button aria-pressed="true" style="height: 44px; padding: 0 16px 0 12px; border-radius: 999px; border: 1.5px solid #0E1726; background: #0E1726; color: #FFFFFF; font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 6px">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFC23D" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>
+      Length
+    </button>
+    <button aria-pressed="false" style="height: 44px; padding: 0 16px; border-radius: 999px; border: 1.5px solid #E4E7EC; background: #FFFFFF; color: #0E1726; font-size: 14px; font-weight: 600">Sleeves</button>
+    <button aria-pressed="false" style="height: 44px; padding: 0 16px; border-radius: 999px; border: 1.5px solid #E4E7EC; background: #FFFFFF; color: #0E1726; font-size: 14px; font-weight: 600">Shoulders</button>
+  </div>
+
+  <span id="keep-q" style="margin-top: 18px; font-size: 16px; font-weight: 600">Are you keeping it?</span>
+  <div role="radiogroup" aria-labelledby="keep-q" style="margin-top: 10px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; padding: 4px; border-radius: 16px; background: #FFFFFF; border: 1px solid #E4E7EC">
+    <button role="radio" aria-checked="false" style="height: 44px; border: 0; border-radius: 12px; background: transparent; color: #3E4A5C; font-size: 14px; font-weight: 600">Keeping it</button>
+    <button role="radio" aria-checked="true" style="height: 44px; border: 0; border-radius: 12px; background: #0E1726; color: #FFFFFF; font-size: 14px; font-weight: 600">Returning it</button>
+    <button role="radio" aria-checked="false" style="height: 44px; border: 0; border-radius: 12px; background: transparent; color: #3E4A5C; font-size: 14px; font-weight: 600">Not sure</button>
+  </div>
+
+  <div style="margin-top: 14px; padding: 12px 14px; border-radius: 16px; background: #FFF4D6; border: 1px solid #F2D48A; display: flex; gap: 12px; align-items: flex-start">
+    <span style="width: 32px; height: 32px; flex: none; border-radius: 16px; background: #FFC23D; display: flex; align-items: center; justify-content: center" aria-hidden="true">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0E1726" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 0 0-14.3-4.9L4 8"></path><path d="M4 3v5h5"></path><path d="M4 13a8 8 0 0 0 14.3 4.9L20 16"></path><path d="M20 21v-5h-5"></path></svg>
+    </span>
+    <span style="display: flex; flex-direction: column; gap: 2px">
+      <span style="font-size: 15px; font-weight: 600">Next time we'll suggest M for H&amp;M shirts</span>
+      <span style="font-size: 13px; color: #3E4A5C">Returning it? Ask for M in the exchange.</span>
+    </span>
+  </div>
+
+  <a href="1.4-my-sizes.html" style="margin-top: auto; height: 54px; border-radius: 16px; background: #0E1726; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 17px; font-weight: 600; text-decoration: none">Save and update my sizes</a>
+</div>
+</body>
+</html>

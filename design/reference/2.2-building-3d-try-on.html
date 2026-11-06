@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tryitout — Building your 3D try-on</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&amp;family=Instrument+Sans:wght@400;500;600&amp;family=JetBrains+Mono:wght@500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+*,*::before,*::after{box-sizing:border-box}
+button,input{font:inherit}
+a{color:#0E1726}a:hover{color:#3E4A5C}
+</style>
+<style>html,body{min-height:100%}body{background:#E9ECF0;display:flex;justify-content:center;align-items:flex-start;padding:24px 0}</style>
+</head>
+<body>
+<!-- Tryitout design reference: 2.2-building-3d-try-on. Source of truth for layout, copy, colours and spacing. -->
+<div style="width: 390px; height: 844px; position: relative; overflow: hidden; background: #F6F7F9; font-family: 'Instrument Sans', system-ui, -apple-system, 'Segoe UI', sans-serif; color: #0E1726; display: flex; flex-direction: column; padding: 12px 16px 20px">
+
+  <div style="display: flex; align-items: center">
+    <a href="2.1-try-it-on.html" aria-label="Cancel and go back" style="width: 44px; height: 44px; border-radius: 22px; background: #FFFFFF; border: 1px solid #E4E7EC; display: flex; align-items: center; justify-content: center">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0E1726" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+    </a>
+  </div>
+
+  <h1 style="margin: 10px 0 0; font-family: 'Bricolage Grotesque', 'Instrument Sans', system-ui, sans-serif; font-weight: 700; font-size: 26px; line-height: 1.15; letter-spacing: -0.02em">Building your 3D try-on</h1>
+  <p style="margin: 4px 0 0; font-size: 14px; color: #5B6676">Snitch oversized crew tee · size L</p>
+
+  <div style="margin-top: 14px; background: #0E1726; border-radius: 22px; padding: 12px 16px 14px; display: flex; flex-direction: column; gap: 12px">
+    <svg width="326" height="156" viewBox="0 0 326 156" role="img" aria-label="Flat sewing pattern of the tee: front, back, two sleeves and a neck rib, with chest 58 cm flat and length 74 cm marked">
+      <defs><pattern id="b3d-grid" width="13" height="13" patternUnits="userSpaceOnUse"><path d="M13 0H0V13" fill="none" stroke="#1C2840" stroke-width="1"></path></pattern></defs>
+      <rect width="326" height="156" rx="10" fill="url(#b3d-grid)"></rect>
+      <g fill="rgba(255,194,61,0.12)" stroke="#FFC23D" stroke-width="1.6" stroke-linejoin="round">
+        <path d="M44 16Q64 34 84 16L104 21C98 31 98 44 104 53V116H24V53C30 44 30 31 24 21Z"></path>
+        <path d="M134 16Q154 22 174 16L194 21C188 31 188 44 194 53V116H114V53C120 44 120 31 114 21Z"></path>
+        <path d="M206 40C226 20 240 16 261 16S296 20 316 40L310 58H212Z"></path>
+        <path d="M206 98C226 78 240 74 261 74S296 78 316 98L310 116H212Z"></path>
+        <rect x="206" y="127" width="110" height="8" rx="2"></rect>
+      </g>
+      <g fill="none" stroke="#FFC23D" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.75">
+        <path d="M64 44V92M60.5 47.5L64 44l3.5 3.5M60.5 88.5L64 92l3.5-3.5"></path>
+        <path d="M154 44V92M150.5 47.5L154 44l3.5 3.5M150.5 88.5L154 92l3.5-3.5"></path>
+        <path d="M261 24V44M258 27L261 24l3 3M258 41L261 44l3-3"></path>
+        <path d="M261 82V102M258 85L261 82l3 3M258 99L261 102l3-3"></path>
+      </g>
+      <g font-family="'JetBrains Mono', monospace" font-size="9" font-weight="600" letter-spacing="1" fill="#FFC23D" text-anchor="middle">
+        <text x="64" y="108">FRONT</text>
+        <text x="154" y="108">BACK</text>
+        <text x="261" y="54">SLEEVE</text>
+        <text x="261" y="112">SLEEVE</text>
+        <text x="261" y="149">NECK RIB</text>
+      </g>
+      <g stroke="#C9D1DC" stroke-width="1" fill="none">
+        <path d="M12 16V116M8 16H16M8 116H16"></path>
+        <path d="M24 130H104M24 126V134M104 126V134"></path>
+      </g>
+      <rect x="3" y="59" width="18" height="14" fill="#0E1726"></rect>
+      <rect x="53" y="123" width="22" height="14" fill="#0E1726"></rect>
+      <g font-family="'JetBrains Mono', monospace" font-size="10" font-weight="600" fill="#E6EAF0" text-anchor="middle">
+        <text x="12" y="70">74</text>
+        <text x="64" y="134">58</text>
+      </g>
+      <text x="154" y="134" font-family="'Instrument Sans', sans-serif" font-size="10" fill="#9AA6B8" text-anchor="middle">all in cm</text>
+    </svg>
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; border-top: 1px solid #22304A; padding-top: 12px">
+      <div style="display: flex; flex-direction: column; gap: 2px">
+        <span style="font-size: 12px; color: #9AA6B8">Chest</span>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 600; color: #FFFFFF">116 <span style="font-size: 12px; font-weight: 500; color: #9AA6B8">cm</span></span>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 2px">
+        <span style="font-size: 12px; color: #9AA6B8">Length</span>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 600; color: #FFFFFF">74 <span style="font-size: 12px; font-weight: 500; color: #9AA6B8">cm</span></span>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 2px">
+        <span style="font-size: 12px; color: #9AA6B8">Sleeve</span>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 600; color: #FFFFFF">24 <span style="font-size: 12px; font-weight: 500; color: #9AA6B8">cm</span></span>
+      </div>
+    </div>
+  </div>
+
+  <ol aria-label="Build steps" style="margin: 12px 0 0; padding: 4px 14px; list-style: none; background: #FFFFFF; border-radius: 22px">
+    <li style="display: flex; align-items: center; gap: 12px; padding: 8px 0; border-bottom: 1px solid #EEF0F3">
+      <span style="width: 28px; height: 28px; flex: none; border-radius: 14px; background: #DDF3EA; display: flex; align-items: center; justify-content: center" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0B6B4F" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>
+      </span>
+      <span style="flex: 1; min-width: 0; display: flex; flex-direction: column">
+        <span style="font-size: 15px; font-weight: 600; line-height: 20px">Cut out of your photo</span>
+        <span style="font-size: 13px; line-height: 17px; color: #5B6676">Background removed</span>
+      </span>
+      <span style="font-size: 12px; font-weight: 600; color: #0B6B4F">Done</span>
+    </li>
+    <li style="display: flex; align-items: center; gap: 12px; padding: 8px 0; border-bottom: 1px solid #EEF0F3">
+      <span style="width: 28px; height: 28px; flex: none; border-radius: 14px; background: #DDF3EA; display: flex; align-items: center; justify-content: center" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0B6B4F" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>
+      </span>
+      <span style="flex: 1; min-width: 0; display: flex; flex-direction: column">
+        <span style="font-size: 15px; font-weight: 600; line-height: 20px">Sewing pattern read</span>
+        <span style="font-size: 13px; line-height: 17px; color: #5B6676">Front, back, 2 sleeves, neck rib</span>
+      </span>
+      <span style="font-size: 12px; font-weight: 600; color: #0B6B4F">Done</span>
+    </li>
+    <li style="display: flex; align-items: center; gap: 12px; padding: 8px 0; border-bottom: 1px solid #EEF0F3">
+      <span style="width: 28px; height: 28px; flex: none; border-radius: 14px; background: #DDF3EA; display: flex; align-items: center; justify-content: center" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0B6B4F" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>
+      </span>
+      <span style="flex: 1; min-width: 0; display: flex; flex-direction: column">
+        <span style="font-size: 15px; font-weight: 600; line-height: 20px">Set to size L</span>
+        <span style="font-size: 13px; line-height: 17px; color: #5B6676">From Snitch's size chart</span>
+      </span>
+      <span style="font-size: 12px; font-weight: 600; color: #0B6B4F">Done</span>
+    </li>
+    <li style="display: flex; align-items: flex-start; gap: 12px; padding: 8px 0; border-bottom: 1px solid #EEF0F3">
+      <svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true" style="flex: none">
+        <circle cx="14" cy="14" r="11" fill="none" stroke="#EEF0F3" stroke-width="3"></circle>
+        <path d="M14 3A11 11 0 1 1 3.54 17.4" fill="none" stroke="#0E1726" stroke-width="3" stroke-linecap="round"></path>
+      </svg>
+      <span style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px">
+        <span style="display: flex; flex-direction: column">
+          <span style="font-size: 15px; font-weight: 600; line-height: 20px">Draping on your body</span>
+          <span style="font-size: 13px; line-height: 17px; color: #5B6676">Cloth physics on your 175 cm, athletic build</span>
+        </span>
+        <span role="progressbar" aria-label="Draping progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="70" style="display: block; height: 6px; border-radius: 3px; background: #EEF0F3; overflow: hidden">
+          <span style="display: block; width: 70%; height: 100%; border-radius: 3px; background: #FFC23D"></span>
+        </span>
+      </span>
+      <span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 600; line-height: 20px">70%</span>
+    </li>
+    <li style="display: flex; align-items: center; gap: 12px; padding: 8px 0">
+      <span style="width: 28px; height: 28px; flex: none; border-radius: 14px; border: 1.5px solid #D9DEE5; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600; color: #5B6676" aria-hidden="true">5</span>
+      <span style="flex: 1; min-width: 0; display: flex; flex-direction: column">
+        <span style="font-size: 15px; font-weight: 600; line-height: 20px; color: #3E4A5C">Open live camera</span>
+        <span style="font-size: 13px; line-height: 17px; color: #5B6676">See it move with you</span>
+      </span>
+      <span style="font-size: 12px; font-weight: 600; color: #5B6676">Next</span>
+    </li>
+  </ol>
+
+  <div style="margin-top: auto; padding-top: 12px; display: flex; flex-direction: column; gap: 8px">
+    <a href="2.3-live-fit-check.html" style="display: flex; align-items: center; justify-content: center; gap: 10px; height: 54px; border-radius: 16px; background: #0E1726; color: #FFFFFF; font-weight: 600; font-size: 17px; text-decoration: none">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"></path><circle cx="12" cy="13" r="3.5"></circle></svg>
+      Open live camera
+    </a>
+    <p style="margin: 0; text-align: center; font-size: 12px; color: #5B6676">Saved to your try-ons, so it's ready next time.</p>
+  </div>
+</div>
+</body>
+</html>

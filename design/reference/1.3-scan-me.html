@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tryitout — Scan me</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&amp;family=Instrument+Sans:wght@400;500;600&amp;family=JetBrains+Mono:wght@500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+*,*::before,*::after{box-sizing:border-box}
+button,input{font:inherit}
+a{color:#FFFFFF}a:hover{color:#FFE7A8}
+</style>
+<style>html,body{min-height:100%}body{background:#E9ECF0;display:flex;justify-content:center;align-items:flex-start;padding:24px 0}</style>
+</head>
+<body>
+<!-- Tryitout design reference: 1.3-scan-me. Source of truth for layout, copy, colours and spacing. -->
+<div style="width: 390px; height: 844px; position: relative; overflow: hidden; background: #0B1220; font-family: 'Instrument Sans', system-ui, -apple-system, 'Segoe UI', sans-serif; color: #FFFFFF">
+
+  <div style="position: absolute; top: 8px; left: 12px; right: 12px; height: 52px; display: flex; align-items: center; justify-content: space-between">
+    <a href="1.1-welcome.html" aria-label="Close scan" style="width: 44px; height: 44px; border-radius: 22px; background: rgba(255,255,255,0.12); display: flex; align-items: center; justify-content: center">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+    </a>
+    <div style="display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.12); padding: 8px 14px; border-radius: 999px; font-size: 14px; font-weight: 600">
+      <span style="width: 8px; height: 8px; border-radius: 4px; background: #FFC23D" aria-hidden="true"></span>
+      Front photo · 1 of 2
+    </div>
+    <button aria-label="Scan tips" style="width: 44px; height: 44px; border-radius: 22px; border: 0; background: rgba(255,255,255,0.12); display: flex; align-items: center; justify-content: center">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 11v6M12 7.5v.5"></path></svg>
+    </button>
+  </div>
+
+  <div style="position: absolute; top: 70px; left: 0; right: 0; display: flex; justify-content: center">
+    <div style="display: flex; align-items: center; gap: 10px; background: #FFFFFF; color: #0E1726; padding: 6px 6px 6px 14px; border-radius: 999px; font-size: 14px">
+      <span>Your height</span>
+      <span style="font-family: 'JetBrains Mono', monospace; font-weight: 600">175 cm</span>
+      <button style="height: 32px; padding: 0 12px; border: 0; border-radius: 999px; background: #F1F3F6; color: #0E1726; font-size: 13px; font-weight: 600">Edit</button>
+    </div>
+  </div>
+
+  <svg width="300" height="520" viewBox="0 0 300 520" role="img" aria-label="Camera view with a body outline guide around the person" style="position: absolute; left: 45px; top: 128px">
+    <path d="M14 40V14h26M260 14h26v26M286 480v26h-26M40 506H14v-26" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="3" stroke-linecap="round"></path>
+    <path d="M150 20c28 0 42 20 42 44 0 20-10 32-16 38l34 8 42 160-24 6-24-82 2 82-8 28-8 214h-80l-8-214-8-28 2-82-24 82-24-6 42-160 34-8c-6-6-16-18-16-38 0-24 14-44 42-44z" fill="none" stroke="#FFC23D" stroke-width="2.5" stroke-dasharray="8 7" stroke-linejoin="round"></path>
+    <line x1="104" y1="116" x2="64" y2="262" stroke="#9A7458" stroke-width="22" stroke-linecap="round"></line>
+    <line x1="196" y1="116" x2="236" y2="262" stroke="#9A7458" stroke-width="22" stroke-linecap="round"></line>
+    <line x1="104" y1="116" x2="86" y2="172" stroke="#3B4A5E" stroke-width="28" stroke-linecap="round"></line>
+    <line x1="196" y1="116" x2="214" y2="172" stroke="#3B4A5E" stroke-width="28" stroke-linecap="round"></line>
+    <path d="M102 270h96l-4 34-14 196h-24l-6-180-6 180h-24l-14-196z" fill="#232C3A"></path>
+    <path d="M112 500h28v12h-34zM160 500h28l6 12h-34z" fill="#11161F"></path>
+    <path d="M106 106q44-10 88 0l12 46-4 120h-104l-4-120z" fill="#3B4A5E"></path>
+    <rect x="140" y="86" width="20" height="20" fill="#9A7458"></rect>
+    <circle cx="150" cy="62" r="30" fill="#9A7458"></circle>
+    <path d="M120 58q2-30 30-30t30 30q-10-14-30-14t-30 14z" fill="#1C1714"></path>
+  </svg>
+
+  <div style="position: absolute; left: 16px; right: 16px; top: 664px; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px">
+    <span style="display: flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; background: rgba(255,255,255,0.10); font-size: 13px">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6EE7B7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>
+      Full body in frame
+    </span>
+    <span style="display: flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; background: rgba(255,255,255,0.10); font-size: 13px">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6EE7B7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>
+      Good light
+    </span>
+    <span style="display: flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; background: rgba(255,194,61,0.16); font-size: 13px; color: #FFE7A8">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FFC23D" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8"></circle><path d="M12 8v5"></path><path d="M12 16v.5"></path></svg>
+      Move arms a little away from your body
+    </span>
+  </div>
+
+  <div style="position: absolute; left: 0; right: 0; top: 726px; display: flex; align-items: center; justify-content: space-between; padding: 0 40px">
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 4px; width: 56px" aria-label="Step 1 of 2: front photo">
+      <span style="display: flex; gap: 6px" aria-hidden="true">
+        <span style="width: 18px; height: 6px; border-radius: 3px; background: #FFC23D"></span>
+        <span style="width: 6px; height: 6px; border-radius: 3px; background: rgba(255,255,255,0.4)"></span>
+      </span>
+      <span style="font-size: 12px; color: #B8C2D0">Front, then side</span>
+    </div>
+    <button aria-label="Take front photo" style="width: 78px; height: 78px; border-radius: 39px; border: 4px solid #FFFFFF; background: transparent; display: flex; align-items: center; justify-content: center; padding: 0">
+      <span style="width: 60px; height: 60px; border-radius: 30px; background: #FFFFFF" aria-hidden="true"></span>
+    </button>
+    <button aria-label="Switch camera" style="width: 56px; height: 56px; border-radius: 28px; border: 0; background: rgba(255,255,255,0.12); display: flex; align-items: center; justify-content: center">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a8 8 0 1 1-3-6.2"></path><path d="M20 4v4h-4"></path></svg>
+    </button>
+  </div>
+
+  <p style="position: absolute; left: 24px; right: 24px; bottom: 14px; margin: 0; text-align: center; font-size: 12px; color: #B8C2D0">Wear fitted clothes. Photos are deleted after measuring; only your numbers are saved.</p>
+</div>
+</body>
+</html>
