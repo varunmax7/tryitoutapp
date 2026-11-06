@@ -20,6 +20,22 @@ export function AppMark({ size = 30, ...rest }: SVGProps<SVGSVGElement> & { size
   );
 }
 
+/** The app icon: a marigold rounded square with the tape ticks (§12.4). */
+export function AppIcon({ size = 32, ...rest }: SVGProps<SVGSVGElement> & { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 32 32" aria-hidden="true" {...rest}>
+      <rect width="32" height="32" rx="9" className="fill-marigold-500" />
+      <path
+        d="M9 8v8M13 8v5M17 8v8M21 8v5M25 8v8"
+        className="stroke-ink-900"
+        strokeWidth="2"
+        strokeLinecap="round"
+        fill="none"
+      />
+    </svg>
+  );
+}
+
 export function Wordmark({ onDark = false }: { onDark?: boolean }) {
   return (
     <div className="flex items-center gap-[10px]">

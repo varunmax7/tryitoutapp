@@ -11,8 +11,10 @@
 export const illustration = {
   oliveTee: '#6E7C4E',
   oliveTeeSeam: '#4F5A35',
-  oxfordShirt: '#9FB6D4',
-  oxfordShirtSeam: '#7D93B0',
+  oxfordShirt: '#8FB3DA',
+  oxfordShirtSeam: '#6E93BC',
+  oxfordShirtCollar: '#A6C4E4',
+  oxfordShirtButton: '#F4F7FB',
   linenShirt: '#D9CDB8',
   skin: '#9A7458',
   hair: '#1C1714',

@@ -147,17 +147,19 @@ export const demoBuild = {
 };
 
 export const demoShareCheck = {
-  brand: 'Snitch',
-  productType: 'Oversized tee',
+  brand: 'H&M',
+  productType: 'Regular-fit oxford shirt',
+  sizesOnPage: 'S, M, L, XL',
   size: 'L',
-  fitTag: 'great' as FitTag,
-  confidence: 'High confidence',
+  fitTag: 'good' as FitTag,
+  confidence: '85% sure',
+  store: 'Myntra',
   notes: [
-    { label: 'Chest', value: '+8 cm room' },
-    { label: 'Length', value: 'Ends at your hip' },
-    { label: 'In M', value: 'Tight at the chest' },
+    { label: 'Chest', mono: '+8 cm', value: ', comfortable room', warn: false },
+    { label: 'Length', value: 'Covers your belt, tucks well', warn: false },
+    { label: 'In M', value: 'Tight across the chest', warn: true },
   ],
-  basis: 'Based on Snitch’s size chart.',
+  basis: "Based on H&M's size chart and 3 shirts you kept.",
 };
 
 export const demoPurchase = {
