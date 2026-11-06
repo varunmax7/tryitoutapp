@@ -26,7 +26,9 @@ export type CompareResult = {
 export async function expectToMatchDesign(
   page: Page,
   screenId: string,
-  options: { outDir: string; maxDiffPixelRatio?: number } = { outDir: 'test-results/visual' },
+  options: { outDir: string; maxDiffPixelRatio?: number; alwaysWrite?: boolean } = {
+    outDir: 'test-results/visual',
+  },
 ): Promise<CompareResult> {
   const baselinePath = join(ROOT, 'design/screens', `${screenId}.png`);
   const baseline = PNG.sync.read(readFileSync(baselinePath));
@@ -59,7 +61,7 @@ export async function expectToMatchDesign(
   const ratio = diffPixels / totalPixels;
   const limit = options.maxDiffPixelRatio ?? MAX_DIFF_PIXEL_RATIO;
 
-  if (ratio > limit) {
+  if (ratio > limit || options.alwaysWrite) {
     writeFileSync(join(outDir, `${screenId}-actual.png`), actualBuffer);
     writeFileSync(join(outDir, `${screenId}-diff.png`), PNG.sync.write(diff));
   }

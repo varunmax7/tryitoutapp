@@ -65,15 +65,19 @@ html[data-motion='reduce'] {
 
 /* ── Large titles and top bars (§12.8.3) ──────────────────────────────────── */
 
+/* §12.8.3 describes this as sticky with a negative margin so it takes no layout space.
+   `fixed` is used instead: inside a flex column the negative margin still leaves the
+   parent's `gap` behind, which pushed every screen 10px down its design. Fixed takes the
+   bar out of flow completely, and behaves identically for a document-scrolling page. */
 .compact-bar {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 20;
   pointer-events: none;
   height: calc(52px + env(safe-area-inset-top));
   padding-top: env(safe-area-inset-top);
-  /* No layout space, so the resting layout still equals the PNG. */
-  margin-bottom: calc(-52px - env(safe-area-inset-top));
   view-transition-name: topbar;
 }
 

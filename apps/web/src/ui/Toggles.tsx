@@ -13,6 +13,8 @@ export function PillToggle({
   onPress,
   disabled = false,
   multi = false,
+  fill = false,
+  outlined = false,
   children,
 }: {
   pressed: boolean;
@@ -20,13 +22,18 @@ export function PillToggle({
   disabled?: boolean;
   /** Multi-select pills show a marigold check when on. */
   multi?: boolean;
+  /** 1.2's fit-preference pills share the row evenly. */
+  fill?: boolean;
+  /** 1.2 keeps the 1.5px border when a pill is on; 1.4 drops it. */
+  outlined?: boolean;
   children: ReactNode;
 }) {
   const press = usePressable('scale', {
     className: [
-      'inline-flex h-11 items-center gap-[6px] rounded-pill px-[18px] text-[15px]',
+      'inline-flex h-11 items-center justify-center gap-[6px] rounded-pill px-[18px] text-[15px]',
+      fill ? 'flex-1' : '',
       pressed
-        ? 'bg-ink-900 font-semibold text-surface-0'
+        ? `bg-ink-900 font-semibold text-surface-0 ${outlined ? 'border-[1.5px] border-ink-900' : ''}`
         : 'border-[1.5px] border-line-200 bg-surface-0 font-medium text-ink-700',
       disabled ? 'opacity-40' : '',
     ].join(' '),

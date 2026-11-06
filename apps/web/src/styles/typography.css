@@ -92,7 +92,7 @@
   font-family: var(--font-display);
   font-optical-sizing: auto;
   font-size: 42px;
-  line-height: 1;
+  line-height: normal;
   font-weight: 700;
   letter-spacing: 0;
 }
@@ -100,7 +100,7 @@
 @utility type-numeral-l {
   font-family: var(--font-mono);
   font-size: 32px;
-  line-height: 1.1;
+  line-height: normal;
   font-weight: 600;
   letter-spacing: -0.02em;
 }
@@ -108,7 +108,7 @@
 @utility type-numeral-m {
   font-family: var(--font-mono);
   font-size: 20px;
-  line-height: 1.2;
+  line-height: normal;
   font-weight: 600;
   letter-spacing: 0;
 }
