@@ -1,8 +1,9 @@
 import { expect, test } from '@playwright/test';
 
 /**
- * Phase 0 acceptance: `pnpm dev` serves a stub for every screen in implementation.md
- * §12.5 and §12.6, and the router resolves each one without a console error.
+ * Every screen in implementation.md §12.5 and §12.6 resolves at its route without a
+ * console error. Screens built in Phase 1 carry `data-screen`; the ones still waiting
+ * for their phase carry `data-screen-stub`, and either satisfies this test.
  */
 type Route = { path: string; screen: string };
 
@@ -47,7 +48,9 @@ for (const { path, screen } of [...SCREENS, ...DEV_SCREENS]) {
 
     const response = await page.goto(path);
     expect(response?.status(), `${path} should resolve`).toBe(200);
-    await expect(page.locator(`[data-screen-stub="${screen}"]`)).toBeVisible();
+    await expect(
+      page.locator(`[data-screen="${screen}"], [data-screen-stub="${screen}"]`),
+    ).toBeVisible();
     expect(errors, `${path} logged console errors`).toEqual([]);
   });
 }

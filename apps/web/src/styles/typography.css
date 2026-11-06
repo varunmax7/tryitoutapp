@@ -1,7 +1,12 @@
 /* Type scale — implementation.md §12.3, as Tailwind v4 utilities.
    Where the scale lists several sizes for one token (numeral-s, body, caption), the
    utility sets family, weight and tracking and the size comes from a text-[Npx] utility,
-   because the designs use the whole range. */
+   because the designs use the whole range.
+
+   Line height is `normal` on the display tokens: design/reference/*.html leaves it unset
+   on most headings, so the font's own metrics apply, and §12.1 makes the reference HTML
+   the tie-break when it and §12.3 disagree. Each usage adds `leading-[...]` where the
+   reference specifies one. See docs/decisions/ADR-0004-type-line-heights.md. */
 
 @utility type-display-hero {
   font-family: var(--font-display);
@@ -16,7 +21,7 @@
   font-family: var(--font-display);
   font-optical-sizing: auto;
   font-size: 34px;
-  line-height: 1.1;
+  line-height: normal;
   font-weight: 700;
   letter-spacing: -0.02em;
 }
@@ -25,7 +30,7 @@
   font-family: var(--font-display);
   font-optical-sizing: auto;
   font-size: 30px;
-  line-height: 1.1;
+  line-height: normal;
   font-weight: 700;
   letter-spacing: -0.02em;
 }
@@ -34,7 +39,7 @@
   font-family: var(--font-display);
   font-optical-sizing: auto;
   font-size: 28px;
-  line-height: 1.15;
+  line-height: normal;
   font-weight: 700;
   letter-spacing: -0.02em;
 }
@@ -43,7 +48,7 @@
   font-family: var(--font-display);
   font-optical-sizing: auto;
   font-size: 26px;
-  line-height: 1.15;
+  line-height: normal;
   font-weight: 700;
   letter-spacing: -0.02em;
 }
@@ -52,7 +57,7 @@
   font-family: var(--font-display);
   font-optical-sizing: auto;
   font-size: 22px;
-  line-height: 1.2;
+  line-height: normal;
   font-weight: 700;
   letter-spacing: -0.01em;
 }
@@ -61,7 +66,7 @@
   font-family: var(--font-display);
   font-optical-sizing: auto;
   font-size: 20px;
-  line-height: 1.25;
+  line-height: normal;
   font-weight: 700;
   letter-spacing: -0.01em;
 }
@@ -78,7 +83,7 @@
   font-family: var(--font-display);
   font-optical-sizing: auto;
   font-size: 46px;
-  line-height: 1.05;
+  line-height: normal;
   font-weight: 700;
   letter-spacing: -0.02em;
 }

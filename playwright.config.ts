@@ -18,12 +18,8 @@ export default defineConfig({
   ...(process.env.CI ? { workers: 2 } : {}),
   reporter: process.env.CI ? [['github'], ['html', { open: 'never' }]] : [['list']],
 
-  snapshotPathTemplate: 'design/screens/{arg}{ext}',
-
-  expect: {
-    // Tightened to 0.01 in Phase 11 (§17.4).
-    toHaveScreenshot: { maxDiffPixelRatio: 0.02, animations: 'disabled' },
-  },
+  // The design PNGs are compared in e2e/visual-compare.ts with pixelmatch (§17.4), not
+  // through Playwright snapshots, so nothing here can ever write into design/screens.
 
   use: {
     baseURL: BASE_URL,
@@ -44,6 +40,8 @@ export default defineConfig({
       },
     },
     {
+      // 1440 wide at 1x (§17.4). 4.1 is 1180 tall and 4.2 is 1060; each spec sets its
+      // own viewport where it differs from this default.
       name: 'desktop',
       use: {
         ...devices['Desktop Chrome'],

@@ -33,7 +33,10 @@
     color: var(--color-ink-900);
     font-family: var(--font-sans);
     font-size: 16px;
-    line-height: 1.4;
+    /* The reference HTML sets line-height per element and leaves the rest to the font's
+       own metrics, so the inherited value must be `normal`, not Tailwind preflight's 1.5
+       (§12.1, docs/decisions/ADR-0004-type-line-heights.md). */
+    line-height: normal;
     -webkit-font-smoothing: antialiased;
   }
 
