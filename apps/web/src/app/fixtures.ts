@@ -175,3 +175,15 @@ export const demoFamily = [
   { initial: 'P', name: 'Papa', note: 'Shirts', tone: 'loose' as const },
   { initial: 'R', name: 'Riya', note: 'Age 8', tone: 'great' as const },
 ];
+
+/** 3.3 Store mode (V2, flag `storeMode`). */
+export const demoStore = {
+  stores: ['Zudio', 'Max', 'Westside', 'Pantaloons', 'Trends'],
+  categories: ['T-shirts', 'Shirts', 'Jeans', 'Trousers', 'Kurtas', 'Shoes'],
+  store: 'Zudio',
+  category: 'T-shirts',
+  fitLine: 'regular',
+  size: 'L',
+  fitTag: 'slightly_loose' as FitTag,
+  note: 'M will feel tight across your chest.',
+};
