@@ -20,4 +20,12 @@ export const illustration = {
   jeans: '#232C3A',
   shoes: '#11161F',
   guide: 'rgb(255 255 255 / 0.55)',
+
+  // The 2.3 and 4.2 stage figure, which the three.js render replaces.
+  figureSkin: '#B07A57',
+  figureNeck: '#9C6A4A',
+  figureHair: '#1B1512',
+  figureJeans: '#2E4A6E',
+  figureJeansSeam: '#22395A',
+  figureShoes: '#E9ECF1',
 } as const;
