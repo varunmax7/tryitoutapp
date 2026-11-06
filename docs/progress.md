@@ -71,20 +71,23 @@ camera=(self)`, immutable asset caching).
 
 ### Acceptance criteria
 
-| Criterion                                                                   | Status                | Evidence                                                                                                                                                                                |
-| --------------------------------------------------------------------------- | --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `pnpm dev` serves all route stubs                                           | pass                  | `pnpm e2e` — 54 tests on `phone` and `desktop`, every §12.5 and §12.6 screen resolved with no console errors                                                                            |
-| Licence check passes                                                        | pass                  | `pnpm licenses:check` — 494 JS + 36 Python packages; a negative run (MPL-2.0 removed from the allowlist) exits 1                                                                        |
-| Worker health: 200 with a valid JWT, 401 without                            | pass at the app level | 17 pytest tests, including expired, wrong audience, wrong issuer, no subject, HS256 and a token signed by another key. `modal serve` itself needs a Modal account (below)               |
-| CI green on a PR, with a staging preview URL                                | **not yet**           | Every check CI runs is green locally. Needs a GitHub remote and the Cloudflare Pages project                                                                                            |
-| A test error from web, function and worker in Sentry, with no personal data | **not yet**           | Code and self-tests are in place (`/dev/sentry`, `GET /functions/v1/health?selftest=sentry`, worker `init_sentry`) and the scrubbing is unit-tested on both sides. Needs the three DSNs |
+| Criterion                                                                   | Status                       | Evidence                                                                                                                                                                                                                                                            |
+| --------------------------------------------------------------------------- | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `pnpm dev` serves all route stubs                                           | pass                         | `pnpm e2e` — 54 tests on `phone` and `desktop`, every §12.5 and §12.6 screen resolved with no console errors                                                                                                                                                        |
+| Licence check passes                                                        | pass                         | `pnpm licenses:check` — 494 JS + 36 Python packages; a negative run (MPL-2.0 removed from the allowlist) exits 1                                                                                                                                                    |
+| Worker health: 200 with a valid JWT, 401 without                            | pass at the app level        | 17 pytest tests, including expired, wrong audience, wrong issuer, no subject, HS256 and a token signed by another key. `modal serve` itself needs a Modal account (below)                                                                                           |
+| CI green, with a staging preview URL                                        | CI pass; preview **not yet** | All four jobs green on `main` ([run 42171613109](https://github.com/varunmax7/tryitoutapp/actions/runs/42171613109)): web, Edge Functions (Deno), worker, and `design-baselines` correctly skipped outside a PR. The preview URL needs the Cloudflare Pages project |
+| A test error from web, function and worker in Sentry, with no personal data | **not yet**                  | Code and self-tests are in place (`/dev/sentry`, `GET /functions/v1/health?selftest=sentry`, worker `init_sentry`) and the scrubbing is unit-tested on both sides. Needs the three DSNs                                                                             |
 
 ### What still needs your accounts
 
 None of these can be done from here; each takes a few minutes in a browser.
 
-1. **GitHub** — create the private repo, push `main`, turn on branch protection with CI as
-   a required check (§19 step 1).
+1. **GitHub** — done: pushed to
+   [varunmax7/tryitoutapp](https://github.com/varunmax7/tryitoutapp), and CI is green there.
+   Two deliberate differences from §19 step 1 remain: the repo is **public** where the plan
+   assumed private, and branch protection on `main` with CI as a required check is not set
+   yet, because it would block direct pushes to `main`.
 2. **Supabase** — two Free projects in the Mumbai region, `tryitout-staging` and
    `tryitout`. On each: enable anonymous sign-ins and Google, set the Site URL and redirect
    URLs, then add repo secrets `SUPABASE_ACCESS_TOKEN`, `SUPABASE_PROJECT_REF`,
