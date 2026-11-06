@@ -51,17 +51,49 @@ jobs:
       - name: Install Playwright browsers
         run: pnpm exec playwright install --with-deps chromium
 
+      # The pixel comparison runs in its own job on macOS, where the design pack's
+      # text rendering matches (docs/decisions/ADR-0005-visual-tests-on-macos.md).
       - name: End-to-end tests
-        run: pnpm e2e
-
-      - name: Visual tests against design/screens
-        run: pnpm e2e:visual
+        run: pnpm e2e:functional
 
       - uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: playwright-report
           path: playwright-report/
+          retention-days: 7
+
+  visual:
+    name: Visual against design/screens
+    # macOS, because the baselines in design/screens were rendered with macOS text
+    # rasterisation. On Linux the identical UI lands 2.3 to 3.0 percentage points
+    # further from the baseline, which has nothing to do with the code
+    # (docs/decisions/ADR-0005-visual-tests-on-macos.md).
+    runs-on: macos-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install chromium
+
+      - name: Visual tests
+        run: pnpm e2e:visual
+
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: visual-diffs
+          path: test-results/
           retention-days: 7
 
   functions:

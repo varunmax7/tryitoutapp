@@ -2,7 +2,7 @@
   "name": "tryitout",
   "version": "0.1.0",
   "private": true,
-  "description": "Tryitout — your real size in every brand, and a fit check on your own body before you buy.",
+  "description": "Tryitout \u2014 your real size in every brand, and a fit check on your own body before you buy.",
   "license": "UNLICENSED",
   "type": "module",
   "packageManager": "pnpm@10.34.5",
@@ -24,7 +24,8 @@
     "e2e:install": "playwright install --with-deps chromium",
     "licenses:check": "node scripts/check-licenses.mjs",
     "fonts:fetch": "node scripts/fetch-fonts.mjs",
-    "supabase": "supabase"
+    "supabase": "supabase",
+    "e2e:functional": "playwright test --grep-invert @visual"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.14.0",
