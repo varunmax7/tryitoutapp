@@ -176,17 +176,20 @@ against `design/screens/*.png`:
 Every screen is inside the 2% gate; nine are already inside the 1% that §17.4 wants by
 Phase 11.
 
+Every screen is inside the 2% gate; nine are already inside the 1% that §17.4 wants by
+Phase 11.
+
 ### Acceptance criteria
 
-| Criterion                                                      | Status       | Evidence                                                                                                                                                            |
-| -------------------------------------------------------------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| All 14 visual tests pass in still mode                         | **13 of 14** | 4.1 is at 2.64% against the 2% gate; every other screen is at or under 1.61%, and nine are under 1%                                                                 |
-| 1.4 and 1.5 unchanged under reduced motion                     | pass         | two extra visual tests at `reducedMotion: "reduce"`                                                                                                                 |
-| `pnpm e2e:feel` passes                                         | pass         | 6 tests, production build, 4× CPU throttle: zero long frames on the fling and on the fit-map toggle, CLS 0, press and transition inside budget, tab scroll restored |
-| Feel review 1, no failures on scrolling, navigation and sheets | **partial**  | the automated half passes; the device half needs the phones in §17.7, which this environment does not have. Recorded in `docs/feel-review.md`                       |
-| axe: no serious issues                                         | pass         | `e2e/a11y.spec.ts`, all 14 screens, WCAG 2.0/2.1 A and AA; plus a 44 px touch-target probe that measures the real hit area                                          |
-| Lighthouse marks the app installable                           | **not run**  | the manifest, icons, `share_target` and the app-shell service worker are all built and served; Lighthouse itself has not been run                                   |
-| No raw hex in `src/ui` or `src/features`                       | pass         | lint rule, verified to fire. The §12.2 placeholder-art colours live in the one exempt file, `ui/illustration.ts`                                                    |
+| Criterion                                                      | Status      | Evidence                                                                                                                                                                                                                                                |
+| -------------------------------------------------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| All 14 visual tests pass in still mode                         | pass        | 16 visual tests green (14 screens plus 2 reduced-motion), worst 1.61% against a 2% gate. Green in CI on the macOS job (ADR-0005)                                                                                                                        |
+| 1.4 and 1.5 unchanged under reduced motion                     | pass        | two extra visual tests at `reducedMotion: "reduce"`                                                                                                                                                                                                     |
+| `pnpm e2e:feel` passes                                         | pass        | 6 tests on a production build: zero long frames on the fling and the fit-map toggle, CLS 0, press and transition inside budget, tab scroll restored. 4× CPU throttle locally, 1× on CI where the runner is already the throttle (`docs/feel-review.md`) |
+| Feel review 1, no failures on scrolling, navigation and sheets | **partial** | the automated half passes; the device half needs the phones in §17.7, which this environment does not have. Recorded in `docs/feel-review.md`                                                                                                           |
+| axe: no serious issues                                         | pass        | `e2e/a11y.spec.ts`, all 14 screens, WCAG 2.0/2.1 A and AA; plus a 44 px touch-target probe that measures the real hit area                                                                                                                              |
+| Lighthouse marks the app installable                           | **not run** | manifest, icons, `share_target` and the app-shell service worker are all built and served, and initial JS is 114 KB gzip against a 250 KB budget; Lighthouse itself has not been run                                                                    |
+| No raw hex in `src/ui` or `src/features`                       | pass        | lint rule, verified to fire. The §12.2 placeholder-art colours live in the one exempt file, `ui/illustration.ts`                                                                                                                                        |
 
 ### What the pixel diff found
 
@@ -197,104 +200,24 @@ not have shown, which is the argument for keeping the gate tight:
   short and moved everything under it.
 - The desktop sidebar used the 30 px tape mark instead of the 32 px app icon. They are
   two different marks in §12.4 and it is easy to reach for the wrong one.
-- The table header was set in the 11 px `micro` step; §12.4's DataTable says 12 px. One
-  pixel of header height put every row of an eight-row table one pixel out.
+- The table header was set in the 11 px `micro` step; §12.4's DataTable says 12 px. That
+  one pixel of header height put all eight table rows out.
 
-A calibration made it worth hunting: shifting the design against itself by one pixel
-costs 1.52% on 4.1, so a 2.64% diff was provably more than a whole-page one-pixel shift
-and could not be written off as rendering noise.
+A calibration made it worth hunting rather than writing off as rendering noise: shifting
+the design against itself by one pixel costs 1.52% on 4.1, so a 2.64% diff was provably
+more than a whole-page one-pixel shift.
 
-### Decisions taken
+### What CI found that local runs did not
 
-- ADR-0001 — stack and version pins (TypeScript 6, not 7, because typescript-eslint caps it).
-- ADR-0002 — the licence gate reads `pnpm licenses list` instead of `license-checker`.
-- ADR-0003 — Sentry privacy configuration for SDK 11's `dataCollection`.
+Two things, both worth keeping in mind for later phases:
 
-### Notes for Phase 1
-
-- `tokens.css` is in place; `motion.css`, the type-scale utilities and the §12.4 component
-  inventory are Phase 1's first task.
-- App icons are a placeholder SVG AppMark. Phase 1 exports the PNG set from the real
-  `AppMark` component, which is also what Lighthouse installability needs.
-- `src/i18n/en.json` holds only the app name. Phase 1 moves every string from
-  `design/reference/*.html` into it.
-- The visual baselines are already wired: `snapshotPathTemplate` points at
-  `design/screens/{arg}{ext}` with `maxDiffPixelRatio: 0.02`. Never run
-  `--update-snapshots` against them (§17.4).
-- `HydrateFallback` is deliberately blank until the `Skeleton` component exists (§12.8.10).
-
-### Device matrix (§17.7)
-
-Not started — Phase 1 records the real devices used for the first feel review.
-
----
-
-## Phase 1 — Design system and app shell · **done**, 6 Nov 2026
-
-**Goal:** all 14 designed screens render exactly, in demo mode with fixture data, with no
-backend, and the app already scrolls and moves the way §12.8 describes.
-
-### What shipped
-
-**Design system (§12.3, §12.4)**
-
-- `typography.css` with the §12.3 scale, `motion.css` with every curve, duration, spring,
-  view transition and the compact-bar, pressable and skeleton primitives.
-- 47 icons generated from the stroke paths in `design/reference`, plus the AppMark and the
-  32px AppIcon.
-- 30+ components: buttons, chips, toggles, fields, TapeCard, BrandRow, FitBar, SizePicker,
-  StepList, StepMarker, TopBar, LargeTitleHeader, BottomNav, Sidebar, Avatar, BottomSheet
-  on Base UI's Drawer, Toast, Skeleton, AnimatedNumber and the camera overlays.
-
-**Motion (§12.8)**
-
-- Spring presets with `applyMotionTokens`, so CSS and JS share one feel.
-- `nav.ts`: push, back, tab, cover, uncover, desk and fade transitions, including the
-  `hasUAVisualTransition` check that stops an iPhone edge-swipe animating twice.
-- `usePressable` writes `data-pressed` through a ref, so a touch never re-renders; it
-  waits 60 ms inside scrollers and cancels after 10 px of movement.
-- Reduced motion, lite mode and still mode as three independent attributes on `<html>`,
-  applied before the first render.
-- Document scrolling with per-tab scroll restoration, tab memory and tap-to-top.
-
-**Screens** — all 14 built from `design/reference/*.html` and compared with pixelmatch
-against `design/screens/*.png`:
-
-| Screen              | Diff  |     | Screen               | Diff  |
-| ------------------- | ----- | --- | -------------------- | ----- |
-| 3.1 Share-to-check  | 0.09% |     | 3.2 Did it fit?      | 0.74% |
-| 1.3 Scan me         | 0.14% |     | 1.4 My sizes         | 1.10% |
-| 1.2 Type my details | 0.15% |     | 2.3 Live fit check   | 1.14% |
-| 1.1 Welcome         | 0.19% |     | 4.1 Web: My sizes    | 1.18% |
-| 2.2 Building        | 0.19% |     | 1.5 Brand fit detail | 1.24% |
-| 4.2 Try-on studio   | 0.38% |     | 2.1 Try it on        | 1.24% |
-| 3.3 Store mode      | 0.40% |     | 3.4 Me               | 1.61% |
-
-Every screen is inside the 2% gate; nine are already inside the 1% that §17.4 wants by
-Phase 11.
-
-### Acceptance criteria
-
-| Criterion                                                      | Status       | Evidence                                                                                                                                                            |
-| -------------------------------------------------------------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| All 14 visual tests pass in still mode                         | **13 of 14** | 4.1 is at 2.64% against the 2% gate; every other screen is at or under 1.61%, and nine are under 1%                                                                 |
-| 1.4 and 1.5 unchanged under reduced motion                     | pass         | two extra visual tests at `reducedMotion: "reduce"`                                                                                                                 |
-| `pnpm e2e:feel` passes                                         | pass         | 6 tests, production build, 4× CPU throttle: zero long frames on the fling and on the fit-map toggle, CLS 0, press and transition inside budget, tab scroll restored |
-| Feel review 1, no failures on scrolling, navigation and sheets | **partial**  | the automated half passes; the device half needs the phones in §17.7, which this environment does not have. Recorded in `docs/feel-review.md`                       |
-| axe: no serious issues                                         | pass         | `e2e/a11y.spec.ts`, all 14 screens, WCAG 2.0/2.1 A and AA; plus a 44 px touch-target probe that measures the real hit area                                          |
-| Lighthouse marks the app installable                           | **not run**  | the manifest, icons, `share_target` and the app-shell service worker are all built and served; Lighthouse itself has not been run                                   |
-| No raw hex in `src/ui` or `src/features`                       | pass         | lint rule, verified to fire. The §12.2 placeholder-art colours live in the one exempt file, `ui/illustration.ts`                                                    |
-
-### The one screen that misses
-
-**4.1 Web: My sizes, 2.64% against a 2% gate.** What was ruled out: the card row heights
-match the design exactly (128–379 in both), the table row pitch matches (65 px), the
-measurement card's four text bands land on the design's exact pixel rows, and the
-thumbnails, sidebar and bottom-nav suppression are all correct. What is left is a 1–2 px
-line-box difference that appears at the "Best fit for you" heading and carries down the
-table, plus diffuse text-rendering differences across a 1440×1180 screen — the largest
-canvas in the pack, so the same per-glyph noise counts for more than it does on a phone.
-It needs another pass before Phase 11 tightens the gate to 1% anyway.
+- **Platform text rendering.** The same commit that is 0.19% on macOS is 2.61% on Linux.
+  ADR-0005 moves the comparison to macOS rather than the threshold.
+- **A wrong diagnosis, corrected by measuring.** A 279 ms animation frame on a
+  4×-throttled runner looked like the ~120-node stage SVG re-rendering on every fit-map
+  toggle. Memoising it and measuring gave 86 ms with and 86 ms without, at a 20× throttle:
+  the SVG was never the cost, the runner was. The throttle is now 4× locally and 1× on CI.
+  The memo is kept as the right default, and its comment says it changed nothing.
 
 ### Decisions taken
 
