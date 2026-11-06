@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { illustration } from '@/ui/illustration';
 
 /**
@@ -5,7 +6,7 @@ import { illustration } from '@/ui/illustration';
  * difference is visible side by side. The three.js render replaces the figures; the
  * fit-map colours over each torso are product tokens and stay (§12.1, §12.5).
  */
-export function StudioStage() {
+function StudioStageArt() {
   return (
     <svg
       width="100%"
@@ -175,3 +176,10 @@ export function StudioStage() {
     </svg>
   );
 }
+
+/**
+ * Memoised because it takes no props and is a ~120-node SVG, so a toggle elsewhere on
+ * the screen has no reason to re-render it. Measured at a 20x CPU throttle it made no
+ * difference to the frame budget; it is kept as the right default, not as a fix.
+ */
+export const StudioStage = memo(StudioStageArt);

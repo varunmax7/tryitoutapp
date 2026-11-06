@@ -152,8 +152,17 @@ export async function measurePressDelay(page: Page, selector: string): Promise<n
   return delay;
 }
 
-/** Stands in for a mid-range Android (§17.9). */
-export async function throttleCpu(page: Page, rate = 4): Promise<void> {
+/**
+ * Stands in for a mid-range Android (§17.9).
+ *
+ * The 4x throttle exists to slow a fast developer machine down to roughly phone speed.
+ * A shared CI vCPU is already around there, so stacking 4x on top simulates a device
+ * far slower than any phone in §17.7 and turns the budgets into noise: the same fit-map
+ * toggle that costs 86 ms at a 20x throttle locally cost 279 ms on a 4x-throttled
+ * runner. On CI the runner is the throttle.
+ */
+export async function throttleCpu(page: Page, rate = process.env.CI ? 1 : 4): Promise<void> {
+  if (rate <= 1) return;
   const session = await page.context().newCDPSession(page);
   await session.send('Emulation.setCPUThrottlingRate', { rate });
 }

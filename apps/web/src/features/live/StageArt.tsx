@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { illustration } from '@/ui/illustration';
 
 /**
@@ -5,7 +6,7 @@ import { illustration } from '@/ui/illustration';
  * The fit-map colours over the torso ARE product (map-snug / map-right / map-roomy);
  * the person and the room are placeholder art.
  */
-export function StageArt() {
+function StageArtArt() {
   return (
     <svg
       width="390"
@@ -91,3 +92,10 @@ export function StageArt() {
     </svg>
   );
 }
+
+/**
+ * Memoised because it takes no props and is a ~120-node SVG, so a toggle elsewhere on
+ * the screen has no reason to re-render it. Measured at a 20x CPU throttle it made no
+ * difference to the frame budget; it is kept as the right default, not as a fix.
+ */
+export const StageArt = memo(StageArtArt);

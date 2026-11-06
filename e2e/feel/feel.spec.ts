@@ -34,6 +34,8 @@ test('1.4 flings without a long animation frame', async ({ page }) => {
   await page.goto(`/sizes${DEMO}`);
   await page.evaluate(() => document.fonts.ready);
   await page.waitForSelector('[data-screen="1.4-my-sizes"]');
+  // The fling needs the page at full height, which means fonts in and layout settled.
+  await page.waitForFunction(() => document.documentElement.scrollHeight > window.innerHeight);
   // Measure the scroll, not the load.
   await page.waitForTimeout(300);
   await resetFeel(page);
@@ -77,9 +79,13 @@ test('a BrandRow answers the press within 100 ms and pushes to 1.5', async ({ pa
 
 test('switching tabs keeps each tab where it was left', async ({ page }) => {
   await page.goto(`/sizes${DEMO}`);
+  await page.evaluate(() => document.fonts.ready);
   await page.waitForSelector('[data-screen="1.4-my-sizes"]');
-  await flingScroll(page, 400);
-  await page.waitForTimeout(300);
+
+  // This test is about scroll restoration, not gesture physics, so the scroll is set
+  // directly: a synthesized fling depends on how fast the runner is.
+  await page.evaluate(() => window.scrollTo(0, 200));
+  await page.waitForTimeout(200);
   const scrolled = await page.evaluate(() => window.scrollY);
   expect(scrolled, 'the dashboard scrolled').toBeGreaterThan(0);
 
