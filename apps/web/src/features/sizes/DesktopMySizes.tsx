@@ -185,7 +185,7 @@ export function DesktopMySizes() {
                       <th
                         key={head || 'action'}
                         scope="col"
-                        className={`type-micro border-b border-line-200 py-[10px] text-left text-ink-500 ${
+                        className={`type-micro border-b border-line-200 py-[10px] text-left text-[12px] text-ink-500 ${
                           i === 0 ? 'pr-3' : i === 5 ? 'pl-3' : 'px-3'
                         }`}
                       >
@@ -292,7 +292,7 @@ export function DesktopMySizes() {
               data-on-dark
               className="flex flex-col gap-2 rounded-24 bg-ink-900 p-[22px] text-surface-0"
             >
-              <IconCube size={26} className="text-marigold-500" />
+              <IconCube size={36} strokeWidth={1.8} className="text-marigold-500" />
               <h2 id="studio-h" className="type-title-m m-0 tracking-normal">
                 {data.promo.title}
               </h2>
@@ -303,7 +303,7 @@ export function DesktopMySizes() {
                 className="mt-2 flex h-11 items-center gap-2 self-start rounded-12 bg-marigold-500 px-4 text-[14px] font-semibold text-ink-900 no-underline"
               >
                 {data.promo.cta}
-                <IconArrowRight size={16} />
+                <IconArrowRight size={16} strokeWidth={2.2} />
               </Link>
             </section>
 

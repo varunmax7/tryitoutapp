@@ -49,7 +49,7 @@ export default function StudioRoute() {
 
   return (
     <div data-screen="4.2-web-try-on-studio" className="flex min-h-dvh bg-surface-50">
-      <DesktopSidebar name={profile?.firstName ?? 'Aarav'} />
+      <DesktopSidebar {...(profile ? { name: profile.firstName } : {})} />
 
       <main className="flex min-w-0 flex-1 flex-col gap-6 px-10 pt-8 pb-10">
         <header className="flex flex-wrap items-center justify-between gap-6">

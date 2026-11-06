@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router';
-import { AppMark } from '@/ui/AppMark';
+import { AppIcon } from '@/ui/AppMark';
 import { usePressable } from '@/ui/motion/usePressable';
 import {
   IconChevronDown,
@@ -24,7 +24,7 @@ const ITEMS = [
   { to: '/did-it-fit/demo', label: 'Did it fit?', Icon: IconExchange, count: 1 },
 ];
 
-export function DesktopSidebar({ name = 'Aarav' }: { name?: string }) {
+export function DesktopSidebar({ name }: { name?: string | undefined }) {
   const { t } = useTranslation();
   const press = usePressable('row', {
     className:
@@ -38,7 +38,7 @@ export function DesktopSidebar({ name = 'Aarav' }: { name?: string }) {
       style={{ viewTransitionName: 'sidebar' }}
     >
       <div className="flex items-center gap-[10px] px-2">
-        <AppMark />
+        <AppIcon size={32} />
         <span className="font-display text-[21px] font-bold tracking-[-0.01em] text-surface-0">
           {t('app.name')}
         </span>
@@ -95,10 +95,10 @@ export function DesktopSidebar({ name = 'Aarav' }: { name?: string }) {
             aria-hidden="true"
             className="flex size-9 shrink-0 items-center justify-center rounded-pill bg-marigold-500 font-display text-[16px] font-bold text-ink-900"
           >
-            {name[0]}
+            {name?.[0] ?? ''}
           </span>
           <span className="flex flex-1 flex-col">
-            <span className="text-[14px] font-semibold">{name}</span>
+            <span className="text-[14px] font-semibold">{name ?? ''}</span>
             <span className="text-[12px] text-on-dark-300">Switch profile</span>
           </span>
           <IconChevronDown size={18} className="text-on-dark-300" />
