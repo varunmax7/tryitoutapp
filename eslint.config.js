@@ -8,7 +8,8 @@ import reactRefresh from 'eslint-plugin-react-refresh';
  * Guards from implementation.md §17.8. They are lint rules, not conventions,
  * so design drift and motion drift fail CI instead of landing in a review.
  */
-const RAW_HEX = String.raw`#(?:[0-9a-fA-F]{3,4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})(?![0-9a-zA-Z])`;
+// The trailing `-` exclusion keeps SVG fragment ids such as url(#b3d-grid) out of it.
+const RAW_HEX = String.raw`#(?:[0-9a-fA-F]{3,4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})(?![0-9a-zA-Z-])`;
 const RAW_DURATION = String.raw`^\s*\d+(?:\.\d+)?m?s\s*$`;
 const RAW_EASING = String.raw`cubic-bezier\(|^ease(?:-in|-out|-in-out)?$|^linear$`;
 // Pictographic ranges only: Indic and Latin text must stay legal.
@@ -97,6 +98,13 @@ export default tseslint.config(
   {
     files: ['apps/web/src/ui/**/*.{ts,tsx}', 'apps/web/src/features/**/*.{ts,tsx}'],
     rules: designGuards,
+  },
+  {
+    // §12.2: the colours inside the camera and 3D placeholder art are deliberately not
+    // tokens. They live in this one file so they stay auditable and disappear with the
+    // placeholders they belong to.
+    files: ['apps/web/src/ui/illustration.ts'],
+    rules: { 'no-restricted-syntax': 'off' },
   },
 
   // Config, scripts and tests run in Node and may log.

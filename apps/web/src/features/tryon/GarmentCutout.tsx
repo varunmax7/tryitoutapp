@@ -1,3 +1,5 @@
+import { illustration } from '@/ui/illustration';
+
 /**
  * Placeholder art for the garment cut-out on 2.1 (§12.1): it stands in for the RGBA
  * cut-out the worker returns from /garment/analyze. The olive is illustration colour,
@@ -24,12 +26,12 @@ export function GarmentCutout({ size = 96 }: { size?: number }) {
       <rect width="96" height="112" fill="url(#tryon-chk)" />
       <path
         d="M33 20L16 29 7 48l14 7 6-9v50h42V46l6 9 14-7-9-19-17-9q-6 8-15 8t-15-8z"
-        fill="#6E7C4E"
+        fill={illustration.oliveTee}
       />
       <path
         d="M33 20q6 8 15 8t15-8"
         fill="none"
-        stroke="#4F5A35"
+        stroke={illustration.oliveTeeSeam}
         strokeWidth="2.5"
         strokeLinecap="round"
       />

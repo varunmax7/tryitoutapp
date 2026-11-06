@@ -167,3 +167,11 @@ export const demoPurchase = {
   saidFit: 'Good fit',
   delivered: 'Delivered on 2 November',
 };
+
+/** 3.4's family switcher (V2, flag `familyProfiles`) and tools grid. */
+export const demoFamily = [
+  { initial: 'A', name: 'Aarav', note: 'You', tone: 'ink' as const },
+  { initial: 'M', name: 'Maa', note: 'Kurtas', tone: 'tight' as const },
+  { initial: 'P', name: 'Papa', note: 'Shirts', tone: 'loose' as const },
+  { initial: 'R', name: 'Riya', note: 'Age 8', tone: 'great' as const },
+];
