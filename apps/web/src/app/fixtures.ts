@@ -189,3 +189,168 @@ export const demoStore = {
   fitTag: 'slightly_loose' as FitTag,
   note: 'M will feel tight across your chest.',
 };
+
+/** 4.1's desktop dashboard: the wider table, the usual sizes and the recent checks. */
+export const demoDesktop = {
+  greeting: 'Hi Aarav. Your size and fit in every brand you shop.',
+  measurementsNote: 'From a body scan · High accuracy',
+  usualSizes: [
+    { label: 'Tops', value: 'M–L' },
+    { label: 'Jeans', value: '32' },
+    { label: 'Kurtas', value: 'L' },
+    { label: 'Shoes', value: 'UK 9' },
+  ],
+  review: {
+    badge: '1 to review',
+    title: 'Did your H&M shirt fit?',
+    body: 'It arrived yesterday. Your answer tunes every H&M size after this.',
+    cta: 'Tell us',
+  },
+  categories: ['Tops', 'Shirts', 'Jeans', 'Kurtas', 'Shoes'],
+  rows: [
+    {
+      monogram: 'R',
+      brand: 'Roadster',
+      size: 'M',
+      fitTag: 'great' as FitTag,
+      note: 'Matches the M you own',
+      confidence: 92,
+    },
+    {
+      monogram: 'Z',
+      brand: 'Zara',
+      size: 'M',
+      fitTag: 'great' as FitTag,
+      note: 'Chest +6 cm, length right',
+      confidence: 88,
+    },
+    {
+      monogram: 'U',
+      brand: 'Uniqlo',
+      size: 'M',
+      fitTag: 'great' as FitTag,
+      note: 'Easy room in the shoulders',
+      confidence: 86,
+    },
+    {
+      monogram: 'H',
+      brand: 'H&M',
+      size: 'L',
+      fitTag: 'good' as FitTag,
+      note: 'M is tight in the chest',
+      confidence: 85,
+    },
+    {
+      monogram: 'L',
+      brand: "Levi's",
+      size: 'M',
+      fitTag: 'good' as FitTag,
+      note: 'Slim tees: go up to L',
+      confidence: 82,
+    },
+    {
+      monogram: 'S',
+      brand: 'Snitch',
+      size: 'L',
+      fitTag: 'good' as FitTag,
+      note: 'Oversized cuts: stay at L',
+      confidence: 80,
+    },
+    {
+      monogram: 'A',
+      brand: 'Allen Solly',
+      size: '40',
+      fitTag: 'good' as FitTag,
+      note: 'Formal shirts in chest sizes',
+      confidence: 79,
+    },
+    {
+      monogram: 'Z',
+      brand: 'Zudio',
+      size: 'L',
+      fitTag: 'slightly_loose' as FitTag,
+      note: 'M runs tight in the chest',
+      confidence: 78,
+    },
+  ],
+  recent: [
+    {
+      title: 'H&M oxford shirt',
+      sub: 'Shared from Myntra · Good fit',
+      size: 'L',
+      to: '/check',
+      kind: 'oxford' as const,
+    },
+    {
+      title: 'Snitch oversized tee',
+      sub: '3D try-on saved · Good fit',
+      size: 'L',
+      to: '/try/studio/demo',
+      kind: 'tee' as const,
+    },
+    {
+      title: 'Zara linen shirt',
+      sub: 'Searched · Great fit',
+      size: 'M',
+      to: '/sizes/zara/tshirt',
+      kind: 'linen' as const,
+    },
+  ],
+  promo: {
+    title: 'See it on you first',
+    body: 'Drop any shirt photo. We rebuild it in 3D from real measurements and put it on your body.',
+    cta: 'Open try-on studio',
+  },
+  searchPlaceholder: "Search any brand, like Levi's or Biba",
+  measureAgain: 'Measure again',
+  fitTitle: 'Best fit for you',
+  fitSub: 'Your size in each brand, based on its size chart and what you kept',
+  greatFitOnly: 'Great fit only',
+  sort: 'Sort: Best fit',
+  privacyNote: 'Scan photos are deleted right after measuring.',
+  switchProfile: 'Switch profile',
+};
+
+/** 4.2's try-on studio: the garment panel, the stage and the three note cards. */
+export const demoStudio = {
+  subtitle: 'Snitch oversized crew tee · comparing M and L on your body',
+  brand: 'Snitch',
+  style: 'Oversized tee',
+  sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
+  selected: 'L',
+  compare: 'M',
+  sizeCaption: 'L is your size at Snitch. Pick up to two to compare.',
+  chartTitle: "Garment size L · from Snitch's chart",
+  chart: [
+    { label: 'Chest', value: 116 },
+    { label: 'Length', value: 74 },
+    { label: 'Sleeve', value: 24 },
+  ],
+  verdict: {
+    chip: 'Good fit in L',
+    line: 'L is your size for this tee. Biceps feel snug in both sizes.',
+  },
+  notes: [
+    {
+      region: 'Chest',
+      rows: [
+        { size: 'M', value: '+12 cm', tag: 'Snug', tone: 'tight' as const },
+        { size: 'L', value: '+18 cm', tag: 'Just right', tone: 'great' as const },
+      ],
+    },
+    {
+      region: 'Biceps',
+      rows: [
+        { size: 'M', value: '−1 cm', tag: 'Tight', tone: 'tight' as const },
+        { size: 'L', value: '+2 cm', tag: 'Snug', tone: 'tight' as const },
+      ],
+    },
+    {
+      region: 'Length',
+      rows: [
+        { size: 'M', value: 'At your belt', tag: 'Short', tone: 'tight' as const },
+        { size: 'L', value: 'At your hip', tag: 'Just right', tone: 'great' as const },
+      ],
+    },
+  ],
+};

@@ -15,7 +15,9 @@ export const illustration = {
   oxfordShirtSeam: '#6E93BC',
   oxfordShirtCollar: '#A6C4E4',
   oxfordShirtButton: '#F4F7FB',
-  linenShirt: '#D9CDB8',
+  linenShirt: '#E6D9BF',
+  linenShirtSeam: '#BFAE8A',
+  linenShirtCollar: '#EFE5D0',
   skin: '#9A7458',
   hair: '#1C1714',
   tee: '#3B4A5E',
@@ -30,4 +32,7 @@ export const illustration = {
   figureJeans: '#2E4A6E',
   figureJeansSeam: '#22395A',
   figureShoes: '#E9ECF1',
+  figureShadow: '#000000',
+  /** The dashed hem line drawn over the fit map, so it reads on any map colour. */
+  fitSeam: '#FFFFFF',
 } as const;

@@ -3,6 +3,7 @@ import { Outlet, ScrollRestoration, useLocation, useMatches, useNavigate } from 
 import { BottomNav } from '@/ui/Nav';
 import { SheetIndent } from '@/ui/BottomSheet';
 import { tabRootFor, useTabStore } from './tabs';
+import { useIsDesktop } from './useIsDesktop';
 
 /**
  * App shell — implementation.md §12.8.3.
@@ -37,6 +38,9 @@ function useRouteChrome(): Required<RouteChrome> {
 
 export function RootLayout() {
   const { chrome, theme } = useRouteChrome();
+  // At 1024px and up the Sidebar replaces the BottomNav (§12.7).
+  const desktop = useIsDesktop();
+  const tabs = chrome === 'tabs' && !desktop;
   const location = useLocation();
   const navigate = useNavigate();
   const remember = useTabStore((state) => state.remember);
@@ -109,7 +113,7 @@ export function RootLayout() {
       >
         <Outlet />
       </div>
-      {chrome === 'tabs' ? <BottomNav onTabPress={onTabPress} /> : null}
+      {tabs ? <BottomNav onTabPress={onTabPress} /> : null}
     </SheetIndent>
   );
 }

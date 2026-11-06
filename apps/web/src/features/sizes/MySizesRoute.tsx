@@ -10,6 +10,8 @@ import { usePressable } from '@/ui/motion/usePressable';
 import { IconChevronDown, IconPlus } from '@/ui/icons';
 import { useDemo } from '@/app/demo';
 import { isOn } from '@/app/flags';
+import { useIsDesktop } from '@/app/useIsDesktop';
+import { DesktopMySizes } from './DesktopMySizes';
 
 /**
  * 1.4 My sizes — implementation.md §12.5.
@@ -23,10 +25,14 @@ const CATEGORIES = ['tops', 'jeans', 'kurtas', 'shoes'] as const;
 export default function MySizesRoute() {
   const { t } = useTranslation();
   const demo = useDemo();
+  const desktop = useIsDesktop();
   const [category, setCategory] = useState<(typeof CATEGORIES)[number]>('tops');
 
   const profile = demo?.demoProfile;
   const brands = demo?.demoBrands ?? [];
+
+  // §12.7: /sizes has its own layout at 1024px and up.
+  if (desktop) return <DesktopMySizes />;
 
   return (
     <div data-screen="1.4-my-sizes" className="flex min-h-dvh flex-col gap-[10px] px-4 pt-[14px]">
@@ -44,7 +50,7 @@ export default function MySizesRoute() {
           action={
             <Link
               to="/measure"
-              className="flex min-h-8 items-center text-[13px] font-semibold underline underline-offset-[3px]"
+              className="tap-expand flex min-h-8 items-center text-[13px] font-semibold underline underline-offset-[3px]"
             >
               {t('sizes.edit')}
             </Link>

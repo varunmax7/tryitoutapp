@@ -132,4 +132,91 @@ Not started — Phase 1 records the real devices used for the first feel review.
 
 ---
 
-## Phase 1 — Design system and app shell · not started
+## Phase 1 — Design system and app shell · **mostly done**, 6 Nov 2026
+
+**Goal:** all 14 designed screens render exactly, in demo mode with fixture data, with no
+backend, and the app already scrolls and moves the way §12.8 describes.
+
+### What shipped
+
+**Design system (§12.3, §12.4)**
+
+- `typography.css` with the §12.3 scale, `motion.css` with every curve, duration, spring,
+  view transition and the compact-bar, pressable and skeleton primitives.
+- 47 icons generated from the stroke paths in `design/reference`, plus the AppMark and the
+  32px AppIcon.
+- 30+ components: buttons, chips, toggles, fields, TapeCard, BrandRow, FitBar, SizePicker,
+  StepList, StepMarker, TopBar, LargeTitleHeader, BottomNav, Sidebar, Avatar, BottomSheet
+  on Base UI's Drawer, Toast, Skeleton, AnimatedNumber and the camera overlays.
+
+**Motion (§12.8)**
+
+- Spring presets with `applyMotionTokens`, so CSS and JS share one feel.
+- `nav.ts`: push, back, tab, cover, uncover, desk and fade transitions, including the
+  `hasUAVisualTransition` check that stops an iPhone edge-swipe animating twice.
+- `usePressable` writes `data-pressed` through a ref, so a touch never re-renders; it
+  waits 60 ms inside scrollers and cancels after 10 px of movement.
+- Reduced motion, lite mode and still mode as three independent attributes on `<html>`,
+  applied before the first render.
+- Document scrolling with per-tab scroll restoration, tab memory and tap-to-top.
+
+**Screens** — all 14 built from `design/reference/*.html` and compared with pixelmatch
+against `design/screens/*.png`:
+
+| Screen              | Diff  |     | Screen                | Diff      |
+| ------------------- | ----- | --- | --------------------- | --------- |
+| 3.1 Share-to-check  | 0.09% |     | 3.2 Did it fit?       | 0.74%     |
+| 1.3 Scan me         | 0.14% |     | 1.4 My sizes          | 1.10%     |
+| 1.2 Type my details | 0.15% |     | 2.3 Live fit check    | 1.14%     |
+| 1.1 Welcome         | 0.19% |     | 1.5 Brand fit detail  | 1.24%     |
+| 2.2 Building        | 0.19% |     | 2.1 Try it on         | 1.24%     |
+| 3.3 Store mode      | 0.40% |     | 3.4 Me                | 1.61%     |
+| 4.2 Try-on studio   | 0.55% |     | **4.1 Web: My sizes** | **2.64%** |
+
+### Acceptance criteria
+
+| Criterion                                                      | Status       | Evidence                                                                                                                                                            |
+| -------------------------------------------------------------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| All 14 visual tests pass in still mode                         | **13 of 14** | 4.1 is at 2.64% against the 2% gate; every other screen is at or under 1.61%, and nine are under 1%                                                                 |
+| 1.4 and 1.5 unchanged under reduced motion                     | pass         | two extra visual tests at `reducedMotion: "reduce"`                                                                                                                 |
+| `pnpm e2e:feel` passes                                         | pass         | 6 tests, production build, 4× CPU throttle: zero long frames on the fling and on the fit-map toggle, CLS 0, press and transition inside budget, tab scroll restored |
+| Feel review 1, no failures on scrolling, navigation and sheets | **partial**  | the automated half passes; the device half needs the phones in §17.7, which this environment does not have. Recorded in `docs/feel-review.md`                       |
+| axe: no serious issues                                         | pass         | `e2e/a11y.spec.ts`, all 14 screens, WCAG 2.0/2.1 A and AA; plus a 44 px touch-target probe that measures the real hit area                                          |
+| Lighthouse marks the app installable                           | **not run**  | the manifest, icons, `share_target` and the app-shell service worker are all built and served; Lighthouse itself has not been run                                   |
+| No raw hex in `src/ui` or `src/features`                       | pass         | lint rule, verified to fire. The §12.2 placeholder-art colours live in the one exempt file, `ui/illustration.ts`                                                    |
+
+### The one screen that misses
+
+**4.1 Web: My sizes, 2.64% against a 2% gate.** What was ruled out: the card row heights
+match the design exactly (128–379 in both), the table row pitch matches (65 px), the
+measurement card's four text bands land on the design's exact pixel rows, and the
+thumbnails, sidebar and bottom-nav suppression are all correct. What is left is a 1–2 px
+line-box difference that appears at the "Best fit for you" heading and carries down the
+table, plus diffuse text-rendering differences across a 1440×1180 screen — the largest
+canvas in the pack, so the same per-glyph noise counts for more than it does on a phone.
+It needs another pass before Phase 11 tightens the gate to 1% anyway.
+
+### Decisions taken
+
+- ADR-0004 — line height comes from the reference HTML, not from §12.3's table. Tailwind
+  preflight's `line-height: 1.5` was making every screen drift downward; this was worth
+  1.7 percentage points on 1.1 alone.
+- The compact bar is `fixed`, not sticky with a negative margin: inside a flex column the
+  negative margin still left the parent's `gap` behind, which pushed every large-title
+  screen 10 px down its design.
+- Visual comparison is done with pixelmatch against `design/screens` directly, not through
+  Playwright snapshots, so nothing in the repo can write into the design pack.
+- The feel project runs against a production preview build on its own port. Frame timing
+  measured against the dev server is not a number worth having.
+- Controls the design draws smaller than 44 px (1.4's "Edit" link is 32 px) keep their
+  painted box and gain an invisible 44 px hit area through `.tap-expand`. §12.7's touch
+  target is not negotiable; the design's visual is not either.
+
+### Notes for Phase 2
+
+- Screens read from `useDemo()`, which is null outside `?demo=1`. Phase 3 replaces those
+  reads with the real queries; the empty states are already in place on 1.4 and 1.5.
+- The N-screens from §12.6 are still stubs behind `/dev/sheets`; each lands with the phase
+  that owns its flow.
+- `docs/feel-review.md` holds the script and review 1. Run it on real devices at the next
+  phase that adds a screen.

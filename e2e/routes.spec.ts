@@ -5,7 +5,12 @@ import { expect, test } from '@playwright/test';
  * console error. Screens built in Phase 1 carry `data-screen`; the ones still waiting
  * for their phase carry `data-screen-stub`, and either satisfies this test.
  */
-type Route = { path: string; screen: string };
+type Route = {
+  path: string;
+  screen: string;
+  /** /sizes swaps to its desktop layout at 1024px and up (§12.7). */
+  desktopScreen?: string;
+};
 
 const SCREENS: Route[] = [
   { path: '/', screen: '1.1-welcome' },
@@ -14,7 +19,7 @@ const SCREENS: Route[] = [
   { path: '/scan', screen: '1.3-scan-me' },
   { path: '/scan/processing', screen: 'N3-scan-processing' },
   { path: '/scan/size-tag', screen: 'N4-size-tag-scan' },
-  { path: '/sizes', screen: '1.4-my-sizes' },
+  { path: '/sizes', screen: '1.4-my-sizes', desktopScreen: '4.1-web-my-sizes' },
   { path: '/sizes/zara/tshirt', screen: '1.5-brand-fit-detail' },
   { path: '/try', screen: '2.1-try-it-on' },
   { path: '/try/build/build_1', screen: '2.2-building-3d-try-on' },
@@ -38,8 +43,9 @@ const DEV_SCREENS: Route[] = [
   { path: '/dev/sentry', screen: 'dev-sentry' },
 ];
 
-for (const { path, screen } of [...SCREENS, ...DEV_SCREENS]) {
-  test(`serves ${screen} at ${path}`, async ({ page }) => {
+for (const { path, screen, desktopScreen } of [...SCREENS, ...DEV_SCREENS]) {
+  test(`serves ${screen} at ${path}`, async ({ page }, testInfo) => {
+    const expected = testInfo.project.name === 'desktop' && desktopScreen ? desktopScreen : screen;
     const errors: string[] = [];
     page.on('console', (message) => {
       if (message.type() === 'error') errors.push(message.text());
@@ -49,7 +55,7 @@ for (const { path, screen } of [...SCREENS, ...DEV_SCREENS]) {
     const response = await page.goto(path);
     expect(response?.status(), `${path} should resolve`).toBe(200);
     await expect(
-      page.locator(`[data-screen="${screen}"], [data-screen-stub="${screen}"]`),
+      page.locator(`[data-screen="${expected}"], [data-screen-stub="${expected}"]`),
     ).toBeVisible();
     expect(errors, `${path} logged console errors`).toEqual([]);
   });

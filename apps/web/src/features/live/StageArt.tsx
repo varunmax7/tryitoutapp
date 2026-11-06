@@ -24,7 +24,7 @@ export function StageArt() {
       <rect y="520" width="390" height="324" className="fill-room-floor" />
       <path d="M0 520H390" className="stroke-room-line" strokeWidth="2" />
       <g transform="translate(195 586) scale(0.86) translate(-195 -586)">
-        <ellipse cx="195" cy="588" rx="86" ry="9" fill="#000000" opacity="0.35" />
+        <ellipse cx="195" cy="588" rx="86" ry="9" fill={illustration.figureShadow} opacity="0.35" />
         <path d="M102 279L92 344L88 404L104 406L112 346L127 286Z" fill={illustration.figureSkin} />
         <path
           d="M288 279L298 344L302 404L286 406L278 346L263 286Z"
@@ -59,7 +59,7 @@ export function StageArt() {
             <path
               d="M110 312Q195 296 280 312"
               fill="none"
-              stroke="#FFFFFF"
+              stroke={illustration.fitSeam}
               strokeWidth="1.5"
               strokeDasharray="3 3"
               opacity="0.6"
@@ -78,7 +78,7 @@ export function StageArt() {
         </g>
       </g>
       {/* Leader lines from each callout to its region. */}
-      <g fill="none" stroke="#FFFFFF" strokeWidth="1.25" opacity="0.85">
+      <g fill="none" stroke={illustration.fitSeam} strokeWidth="1.25" opacity="0.85">
         <path d="M252 224L223 285" />
         <path d="M104 303H131" />
         <path d="M262 462L227 371" />

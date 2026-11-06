@@ -95,6 +95,22 @@
     display: block;
   }
 
+  /* Expands a control's hit area to the 44px minimum without moving its painted box.
+     Some designed controls are smaller than 44px (1.4's "Edit" link is 32px), and
+     §12.7's touch-target rule is not negotiable, so the target grows invisibly. */
+  .tap-expand {
+    position: relative;
+  }
+  .tap-expand::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: max(100%, 44px);
+    height: max(100%, 44px);
+    transform: translate(-50%, -50%);
+  }
+
   /* Installed app: never let content sit under the notch or the home indicator (§12.7). */
   #root {
     min-height: 100dvh;

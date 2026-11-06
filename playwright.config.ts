@@ -8,6 +8,10 @@ import { defineConfig, devices } from '@playwright/test';
  */
 const PORT = 5173;
 const BASE_URL = `http://localhost:${PORT}`;
+// The feel tests measure frame timing, so they must run against a production build:
+// dev-mode React and unbundled modules would make the numbers meaningless (§17.9).
+const PREVIEW_PORT = 4173;
+const PREVIEW_URL = `http://localhost:${PREVIEW_PORT}`;
 
 export default defineConfig({
   testDir: './e2e',
@@ -30,6 +34,7 @@ export default defineConfig({
   projects: [
     {
       name: 'phone',
+      testIgnore: /feel\/.*\.spec\.ts/,
       use: {
         ...devices['Desktop Chrome'],
         viewport: { width: 390, height: 844 },
@@ -43,6 +48,7 @@ export default defineConfig({
       // 1440 wide at 1x (§17.4). 4.1 is 1180 tall and 4.2 is 1060; each spec sets its
       // own viewport where it differs from this default.
       name: 'desktop',
+      testIgnore: /feel\/.*\.spec\.ts/,
       use: {
         ...devices['Desktop Chrome'],
         viewport: { width: 1440, height: 1180 },
@@ -55,6 +61,7 @@ export default defineConfig({
       testMatch: /feel\/.*\.spec\.ts/,
       use: {
         ...devices['Desktop Chrome'],
+        baseURL: PREVIEW_URL,
         viewport: { width: 390, height: 844 },
         deviceScaleFactor: 2,
         hasTouch: true,
@@ -63,10 +70,18 @@ export default defineConfig({
     },
   ],
 
-  webServer: {
-    command: 'pnpm --filter web dev --port 5173 --strictPort',
-    url: BASE_URL,
-    reuseExistingServer: !process.env.CI,
-    timeout: 120_000,
-  },
+  webServer: [
+    {
+      command: 'pnpm --filter web dev --port 5173 --strictPort',
+      url: BASE_URL,
+      reuseExistingServer: !process.env.CI,
+      timeout: 120_000,
+    },
+    {
+      command: 'pnpm --filter web build && pnpm --filter web preview --port 4173 --strictPort',
+      url: PREVIEW_URL,
+      reuseExistingServer: !process.env.CI,
+      timeout: 180_000,
+    },
+  ],
 });
