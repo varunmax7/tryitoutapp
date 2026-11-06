@@ -14,11 +14,12 @@ import { ProgressBar } from './Fields';
  */
 export function FitBar({
   value,
-  labels = ['Tight', 'Good', 'Loose'],
+  labels,
 }: {
   /** 0 to 1 across the whole bar; 0.5 is the middle of the good band. */
   value: number;
-  labels?: [string, string, string] | string[];
+  /** 1.5 labels only the first bar in a stack, so the scale is stated once. */
+  labels?: [string, string, string] | string[] | undefined;
 }) {
   const clamped = Math.min(1, Math.max(0, value));
   return (
@@ -43,11 +44,13 @@ export function FitBar({
           </span>
         </span>
       </div>
-      <div className="flex justify-between text-[11px] text-ink-500">
-        {labels.map((label) => (
-          <span key={label}>{label}</span>
-        ))}
-      </div>
+      {labels ? (
+        <div className="flex justify-between text-[11px] text-ink-500">
+          {labels.map((label) => (
+            <span key={label}>{label}</span>
+          ))}
+        </div>
+      ) : null}
     </>
   );
 }

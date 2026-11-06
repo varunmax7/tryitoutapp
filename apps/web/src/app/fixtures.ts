@@ -109,13 +109,13 @@ export const demoBrandDetail = {
   ],
   regions: [
     { name: 'Chest', ease: '+6 cm', value: 0.5 },
-    { name: 'Waist', ease: '+9 cm', value: 0.56 },
+    { name: 'Waist', ease: '+10 cm', value: 0.62 },
   ],
   facts: [
-    { label: 'Length', value: 'Ends at your hip' },
-    { label: 'Shoulder seam', value: 'On your shoulder' },
-    { label: 'Sleeve', value: 'Mid-bicep' },
-    { label: 'Same size elsewhere', value: 'UK M · EU 50' },
+    { label: 'Length', value: 'Ends at mid-hip' },
+    { label: 'Shoulder seam', value: 'Right on your shoulder' },
+    { label: 'Sleeve', value: 'Ends mid upper-arm' },
+    { label: 'Same size elsewhere', value: 'IN 40 · US M · EU 50' },
   ],
 };
 
@@ -125,15 +125,24 @@ export const demoBuild = {
   size: 'L',
   stats: [
     { label: 'Chest', value: '116 cm' },
-    { label: 'Length', value: '72 cm' },
-    { label: 'Sleeve', value: '22 cm' },
+    { label: 'Length', value: '74 cm' },
+    { label: 'Sleeve', value: '24 cm' },
   ],
   steps: [
-    { label: 'Cut out of your photo', state: 'done' as const },
-    { label: 'Sewing pattern read', state: 'done' as const },
-    { label: 'Set to size L (from Snitch’s size chart)', state: 'done' as const },
-    { label: 'Draping on your body', state: 'running' as const, progress: 0.62 },
-    { label: 'Open live camera', state: 'pending' as const },
+    { label: 'Cut out of your photo', sub: 'Background removed', state: 'done' as const },
+    {
+      label: 'Sewing pattern read',
+      sub: 'Front, back, 2 sleeves, neck rib',
+      state: 'done' as const,
+    },
+    { label: 'Set to size L', sub: "From Snitch's size chart", state: 'done' as const },
+    {
+      label: 'Draping on your body',
+      sub: 'Cloth physics on your 175 cm, athletic build',
+      state: 'running' as const,
+      progress: 0.7,
+    },
+    { label: 'Open live camera', sub: 'See it move with you', state: 'pending' as const },
   ],
 };
 
