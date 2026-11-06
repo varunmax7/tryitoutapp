@@ -1,9 +1,13 @@
 import type { ComponentType } from 'react';
 import type { RouteObject } from 'react-router';
+import type { RouteChrome } from './RootLayout';
 
 /**
  * Every route in implementation.md §12.5 and §12.6. Screens load lazily so the camera,
  * 3D and admin bundles never land in the initial 250 KB budget (§17.6).
+ *
+ * `handle` tells the shell which chrome the screen wants (§12.8.3): the BottomNav, a plain
+ * page, or a full-screen surface that locks the page and owns its own scrolling.
  *
  * Sheet-only screens (N1 consent, N5 brand request, N7 "Did you buy it?", N8 install,
  * N12 settings) open over a screen rather than at a URL; /dev/sheets lists their stubs.
@@ -12,53 +16,66 @@ const lazy = (load: () => Promise<{ default: ComponentType }>) => async () => ({
   Component: (await load()).default,
 });
 
+const route = (
+  path: string,
+  load: () => Promise<{ default: ComponentType }>,
+  handle: RouteChrome = { chrome: 'plain' },
+): RouteObject => ({ path, lazy: lazy(load), handle });
+
 export const appRoutes: RouteObject[] = [
-  { path: '/', lazy: lazy(() => import('@/features/welcome/WelcomeRoute')) },
+  // 1.1's hero is ink, so the status bar and the overscroll above it must be too.
+  route('/', () => import('@/features/welcome/WelcomeRoute'), { chrome: 'plain', theme: 'ink' }),
 
   // F1a — type it
-  { path: '/measure', lazy: lazy(() => import('@/features/measure/MeasureRoute')) },
-  { path: '/measure/numbers', lazy: lazy(() => import('@/features/measure/YourNumbersRoute')) },
+  route('/measure', () => import('@/features/measure/MeasureRoute')),
+  route('/measure/numbers', () => import('@/features/measure/YourNumbersRoute')),
 
-  // F1b — scan me
-  { path: '/scan', lazy: lazy(() => import('@/features/scan/ScanRoute')) },
-  { path: '/scan/processing', lazy: lazy(() => import('@/features/scan/ScanProcessingRoute')) },
-  { path: '/scan/size-tag', lazy: lazy(() => import('@/features/scan/SizeTagRoute')) },
+  // F1b — scan me. The camera owns the screen and never bounces over the viewfinder.
+  route('/scan', () => import('@/features/scan/ScanRoute'), {
+    chrome: 'fullscreen',
+    theme: 'dark',
+  }),
+  route('/scan/processing', () => import('@/features/scan/ScanProcessingRoute'), {
+    chrome: 'fullscreen',
+    theme: 'dark',
+  }),
+  route('/scan/size-tag', () => import('@/features/scan/SizeTagRoute'), {
+    chrome: 'fullscreen',
+    theme: 'dark',
+  }),
 
   // F1 — dashboard and brand detail
-  { path: '/sizes', lazy: lazy(() => import('@/features/sizes/MySizesRoute')) },
-  {
-    path: '/sizes/:brand/:category',
-    lazy: lazy(() => import('@/features/brand/BrandFitDetailRoute')),
-  },
+  route('/sizes', () => import('@/features/sizes/MySizesRoute'), { chrome: 'tabs' }),
+  route('/sizes/:brand/:category', () => import('@/features/brand/BrandFitDetailRoute')),
 
   // F2 — try it on
-  { path: '/try', lazy: lazy(() => import('@/features/tryon/TryItOnRoute')) },
-  { path: '/try/build/:buildId', lazy: lazy(() => import('@/features/tryon/BuildingRoute')) },
-  { path: '/try/live/:garmentId', lazy: lazy(() => import('@/features/live/LiveFitCheckRoute')) },
-  { path: '/try/studio/:garmentId', lazy: lazy(() => import('@/features/tryon/StudioRoute')) },
+  route('/try', () => import('@/features/tryon/TryItOnRoute'), { chrome: 'tabs' }),
+  route('/try/build/:buildId', () => import('@/features/tryon/BuildingRoute')),
+  route('/try/live/:garmentId', () => import('@/features/live/LiveFitCheckRoute'), {
+    chrome: 'fullscreen',
+    theme: 'dark',
+  }),
+  route('/try/studio/:garmentId', () => import('@/features/tryon/StudioRoute')),
 
   // F3 — share to check (also the PWA share target)
-  { path: '/check', lazy: lazy(() => import('@/features/share/ShareToCheckRoute')) },
+  route('/check', () => import('@/features/share/ShareToCheckRoute')),
 
   // F4 — ask family: the public vote page needs no account
-  { path: '/v/:token', lazy: lazy(() => import('@/features/vote/VoteRoute')) },
+  route('/v/:token', () => import('@/features/vote/VoteRoute')),
 
   // F6 — did it fit?
-  {
-    path: '/did-it-fit/:purchaseId',
-    lazy: lazy(() => import('@/features/diditfit/DidItFitRoute')),
-  },
+  route('/did-it-fit/:purchaseId', () => import('@/features/diditfit/DidItFitRoute')),
 
   // V2 behind the storeMode flag
-  { path: '/store', lazy: lazy(() => import('@/features/store/StoreModeRoute')) },
+  route('/store', () => import('@/features/store/StoreModeRoute'), { chrome: 'tabs' }),
 
-  { path: '/me', lazy: lazy(() => import('@/features/me/MeRoute')) },
-  { path: '/admin', lazy: lazy(() => import('@/features/admin/AdminRoute')) },
+  route('/me', () => import('@/features/me/MeRoute'), { chrome: 'tabs' }),
+  route('/admin', () => import('@/features/admin/AdminRoute')),
 
   // N10 legal
-  { path: '/privacy', lazy: lazy(() => import('@/features/legal/PrivacyRoute')) },
-  { path: '/terms', lazy: lazy(() => import('@/features/legal/TermsRoute')) },
-  { path: '/about', lazy: lazy(() => import('@/features/legal/AboutRoute')) },
+  route('/privacy', () => import('@/features/legal/PrivacyRoute')),
+  route('/terms', () => import('@/features/legal/TermsRoute')),
+  route('/about', () => import('@/features/legal/AboutRoute')),
 ];
 
 /**
@@ -67,10 +84,10 @@ export const appRoutes: RouteObject[] = [
  */
 export const devRoutes: RouteObject[] = import.meta.env.DEV
   ? [
-      { path: '/dev/ui', lazy: lazy(() => import('@/features/dev/UiGalleryRoute')) },
-      { path: '/dev/sheets', lazy: lazy(() => import('@/features/dev/SheetsGalleryRoute')) },
-      { path: '/dev/states', lazy: lazy(() => import('@/features/dev/StatesRoute')) },
-      { path: '/dev/sentry', lazy: lazy(() => import('@/features/dev/SentryTestRoute')) },
+      route('/dev/ui', () => import('@/features/dev/UiGalleryRoute')),
+      route('/dev/sheets', () => import('@/features/dev/SheetsGalleryRoute')),
+      route('/dev/states', () => import('@/features/dev/StatesRoute')),
+      route('/dev/sentry', () => import('@/features/dev/SentryTestRoute')),
     ]
   : [];
 

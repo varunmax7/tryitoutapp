@@ -1,0 +1,328 @@
+/* Motion tokens and primitives — implementation.md §12.8.
+   The only place durations, curves and keyframes may be written. Components reference
+   these names; §17.8's lint rule fails any raw ms, s or cubic-bezier value elsewhere. */
+
+:root {
+  /* Curves, for anything that doesn't use a spring (§12.8.2) */
+  --ease-enter: cubic-bezier(0.22, 1, 0.36, 1); /* arriving, press release, fade in */
+  --ease-move: cubic-bezier(0.65, 0, 0.35, 1); /* moving within the screen */
+  --ease-exit: cubic-bezier(0.55, 0, 1, 0.45); /* leaving; exits are quicker than entries */
+
+  /* Durations */
+  --dur-press: 90ms;
+  --dur-fast: 160ms;
+  --dur-base: 240ms;
+  --dur-slow: 360ms;
+
+  /* Page transitions: they can't be interrupted, so a fixed curve that ends on time */
+  --dur-page: 350ms;
+  --ease-page: cubic-bezier(0.32, 0.72, 0, 1);
+
+  /* Press feedback */
+  --press-scale: 0.97;
+  --press-scale-card: 0.98;
+
+  /* Springs as "<duration> <easing>". applyMotionTokens() replaces these at boot with
+     exact linear() springs where the browser supports them. */
+  --spring-snappy: 250ms var(--ease-enter);
+  --spring-smooth: 400ms var(--ease-enter);
+  --spring-gentle: 550ms var(--ease-enter);
+}
+
+html[data-motion='reduce'] {
+  --press-scale: 1;
+  --press-scale-card: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --press-scale: 1;
+    --press-scale-card: 1;
+  }
+}
+
+/* ── Touch feedback (§12.8.4) ──────────────────────────────────────────────── */
+
+.pressable {
+  transition:
+    scale var(--spring-snappy),
+    background-color var(--dur-fast) var(--ease-enter);
+}
+.pressable[data-pressed] {
+  transition:
+    scale var(--dur-press) var(--ease-enter),
+    background-color 0s;
+}
+.pressable[data-press='scale'][data-pressed] {
+  scale: var(--press-scale);
+}
+.pressable[data-press='card'][data-pressed] {
+  scale: var(--press-scale-card);
+}
+.pressable[data-press='row'][data-pressed] {
+  background-color: var(--color-surface-100);
+}
+
+/* ── Large titles and top bars (§12.8.3) ──────────────────────────────────── */
+
+.compact-bar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  pointer-events: none;
+  height: calc(52px + env(safe-area-inset-top));
+  padding-top: env(safe-area-inset-top);
+  /* No layout space, so the resting layout still equals the PNG. */
+  margin-bottom: calc(-52px - env(safe-area-inset-top));
+  view-transition-name: topbar;
+}
+
+.compact-bar::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background: var(--color-material);
+  border-bottom: 1px solid var(--color-line-200);
+  -webkit-backdrop-filter: blur(20px) saturate(1.8);
+  backdrop-filter: blur(20px) saturate(1.8);
+}
+
+.compact-bar__title {
+  opacity: 0;
+}
+
+.compact-bar--dark::before {
+  background: var(--color-material-dark);
+  border-bottom-color: var(--color-dark-line);
+}
+
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    html:not([data-still]):not([data-motion='reduce']) .compact-bar::before {
+      animation: fade-in linear both;
+      animation-timeline: scroll(root);
+      animation-range: 24px 64px;
+    }
+    html:not([data-still]):not([data-motion='reduce']) .compact-bar__title {
+      animation: title-in linear both;
+      animation-timeline: scroll(root);
+      animation-range: 40px 72px;
+    }
+  }
+}
+
+/* Fallback (Firefox, reduced motion): an IntersectionObserver sets [data-scrolled]. */
+.compact-bar[data-scrolled]::before,
+.compact-bar[data-scrolled] .compact-bar__title {
+  opacity: 1;
+  transition: opacity var(--dur-fast) var(--ease-enter);
+}
+
+html[data-lite] .compact-bar::before {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  background: var(--color-surface-50);
+}
+
+@keyframes fade-in {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes title-in {
+  from {
+    opacity: 0;
+    translate: 0 6px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+/* 1.1's marigold tape drifts at about 0.6x scroll speed (§12.8.3). */
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    html:not([data-still]):not([data-motion='reduce']) .tape-drift {
+      animation: tape-drift linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 452px;
+    }
+  }
+}
+
+@keyframes tape-drift {
+  to {
+    translate: 0 180px;
+  }
+}
+
+/* ── Horizontal rows (§12.8.3) ────────────────────────────────────────────── */
+
+.hrow {
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  scroll-padding-inline: 16px;
+  /* `contain` means reaching the end never triggers browser back. */
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+}
+.hrow::-webkit-scrollbar {
+  display: none;
+}
+.hrow > * {
+  scroll-snap-align: start;
+}
+
+/* ── Skeletons (§12.8.7) ──────────────────────────────────────────────────── */
+
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: var(--color-surface-100);
+}
+.skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  translate: -100% 0;
+  background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.55), transparent);
+  animation: shimmer 1200ms var(--ease-move) infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .skeleton::after {
+    animation: none;
+    content: none;
+  }
+}
+html[data-motion='reduce'] .skeleton::after,
+html[data-still] .skeleton::after,
+html[data-lite] .skeleton::after {
+  animation: none;
+  content: none;
+}
+
+@keyframes shimmer {
+  to {
+    translate: 100% 0;
+  }
+}
+
+/* ── Page transitions (§12.8.5) ───────────────────────────────────────────── */
+
+html[data-nav='push']::view-transition-old(root) {
+  animation: var(--dur-page) var(--ease-page) both vt-out-left;
+}
+html[data-nav='push']::view-transition-new(root) {
+  animation: var(--dur-page) var(--ease-page) both vt-in-right;
+}
+html[data-nav='back']::view-transition-old(root) {
+  animation: var(--dur-page) var(--ease-page) both vt-out-right;
+  z-index: 1;
+}
+html[data-nav='back']::view-transition-new(root) {
+  animation: var(--dur-page) var(--ease-page) both vt-in-left;
+}
+html[data-nav='cover']::view-transition-old(root) {
+  animation: none;
+}
+html[data-nav='cover']::view-transition-new(root) {
+  animation: var(--dur-page) var(--ease-page) both vt-in-up;
+}
+html[data-nav='uncover']::view-transition-old(root) {
+  animation: var(--dur-page) var(--ease-page) both vt-out-down;
+  z-index: 1;
+}
+html[data-nav='uncover']::view-transition-new(root) {
+  animation: none;
+}
+html[data-nav='desk']::view-transition-old(root) {
+  animation: 120ms var(--ease-exit) both vt-fade-out;
+}
+html[data-nav='desk']::view-transition-new(root) {
+  animation: 240ms var(--ease-enter) both vt-rise;
+}
+
+/* A tab switch needs its group durations shortened too, or the browser's default
+   250ms group animation holds it open (§12.8.5). */
+html[data-nav='tab']::view-transition-group(*),
+html[data-nav='tab']::view-transition-old(*),
+html[data-nav='tab']::view-transition-new(*),
+html[data-nav='fade']::view-transition-old(*),
+html[data-nav='fade']::view-transition-new(*) {
+  animation-duration: 120ms;
+}
+html[data-nav='fade']::view-transition-group(*) {
+  animation: none;
+}
+
+/* The browser already animated a back swipe; ours would play it twice. */
+html[data-nav='ua']::view-transition-group(*),
+html[data-nav='ua']::view-transition-old(*),
+html[data-nav='ua']::view-transition-new(*) {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*) {
+    animation: none;
+  }
+}
+
+@keyframes vt-in-right {
+  from {
+    transform: translateX(100%);
+  }
+}
+@keyframes vt-out-left {
+  to {
+    transform: translateX(-25%);
+  }
+}
+@keyframes vt-in-left {
+  from {
+    transform: translateX(-25%);
+  }
+}
+@keyframes vt-out-right {
+  to {
+    transform: translateX(100%);
+  }
+}
+@keyframes vt-in-up {
+  from {
+    transform: translateY(100%);
+  }
+}
+@keyframes vt-out-down {
+  to {
+    transform: translateY(100%);
+  }
+}
+@keyframes vt-rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+@keyframes vt-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+/* ── Still mode: for visual tests (§12.8.9) ───────────────────────────────── */
+
+html[data-still] *,
+html[data-still] *::before,
+html[data-still] *::after {
+  animation-duration: 0s !important;
+  animation-delay: 0s !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0s !important;
+  transition-delay: 0s !important;
+  animation-timeline: auto !important;
+  scroll-behavior: auto !important;
+}

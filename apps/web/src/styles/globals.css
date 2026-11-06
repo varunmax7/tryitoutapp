@@ -4,6 +4,8 @@
 
 @import './tokens.css';
 @import './fonts.css';
+@import './typography.css';
+@import './motion.css';
 
 @layer base {
   *,
@@ -16,6 +18,12 @@
     /* Native scrolling only: no scroll-jacking, no smooth-scroll libraries (§12.8.1). */
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
+    /* Keeps the iOS bounce, stops Chrome's pull-to-refresh reloading mid-scroll.
+       Y axis only, so desktop swipe-back still works (§12.8.3). */
+    overscroll-behavior-y: contain;
+    /* The bounce must never show the wrong colour: html paints the bottom edge. */
+    background: var(--color-surface-50);
+    -webkit-tap-highlight-color: transparent;
   }
 
   body {
@@ -27,8 +35,20 @@
     font-size: 16px;
     line-height: 1.4;
     -webkit-font-smoothing: antialiased;
-    /* The app owns its own scroll chaining; the page never rubber-bands to white. */
-    overscroll-behavior-y: none;
+  }
+
+  /* Controls, not text: never block pinch zoom, and don't apply these to snapshots
+     people may want to save (§12.8.4). */
+  button,
+  [role='button'],
+  [role='switch'],
+  [role='radio'],
+  a,
+  label,
+  summary {
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-touch-callout: none;
   }
 
   h1,

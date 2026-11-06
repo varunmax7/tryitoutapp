@@ -1,0 +1,150 @@
+/* Type scale — implementation.md §12.3, as Tailwind v4 utilities.
+   Where the scale lists several sizes for one token (numeral-s, body, caption), the
+   utility sets family, weight and tracking and the size comes from a text-[Npx] utility,
+   because the designs use the whole range. */
+
+@utility type-display-hero {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  font-size: 42px;
+  line-height: 1.02;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+@utility type-display-xl {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  font-size: 34px;
+  line-height: 1.1;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+@utility type-display-l {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  font-size: 30px;
+  line-height: 1.1;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+@utility type-display-m {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  font-size: 28px;
+  line-height: 1.15;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+@utility type-display-s {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  font-size: 26px;
+  line-height: 1.15;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+@utility type-title-l {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  font-size: 22px;
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+@utility type-title-m {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  font-size: 20px;
+  line-height: 1.25;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+@utility type-numeral-hero {
+  font-family: var(--font-mono);
+  font-size: 54px;
+  line-height: 1;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+@utility type-numeral-store {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  font-size: 46px;
+  line-height: 1.05;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+@utility type-numeral-tile {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  font-size: 42px;
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+@utility type-numeral-l {
+  font-family: var(--font-mono);
+  font-size: 32px;
+  line-height: 1.1;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+@utility type-numeral-m {
+  font-family: var(--font-mono);
+  font-size: 20px;
+  line-height: 1.2;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+/* numeral-s covers 19 down to 12 px; pair with text-[Npx]. */
+@utility type-numeral {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+@utility type-body-strong {
+  font-family: var(--font-sans);
+  font-size: 17px;
+  line-height: 1.3;
+  font-weight: 600;
+}
+
+/* body covers 16 and 15 px at weights 400 to 600; pair with text-[Npx]. */
+@utility type-body {
+  font-family: var(--font-sans);
+  line-height: 1.4;
+}
+
+@utility type-body-s {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+/* caption covers 13 and 12 px; pair with text-[Npx]. */
+@utility type-caption {
+  font-family: var(--font-sans);
+  line-height: 1.4;
+}
+
+@utility type-micro {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  line-height: 1.3;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
